@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Визы в Канаду
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Визы в Канаду</h1>
+
+    <!-- Раздел "Типы виз" -->
+    <section id="types">
+        <h2>Типы виз</h2>
+        {% if visa_types %}
+            <ul>
+                {% for visa_type in visa_types %}
+                <li>
+                    <strong>{{ visa_type.name }}</strong>: {{ visa_type.description }}
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Типы виз пока не добавлены.</p>
+        {% endif %}
+    </section>
+
+    <hr>
+
+    <!-- Раздел "Основные требования и документы" -->
+    <section id="requirements">
+        <h2>Основные требования и документы</h2>
+        {% if visa_requirements %}
+            <ul>
+                {% for requirement in visa_requirements %}
+                <li>{{ requirement.requirement }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Требования и документы пока не добавлены.</p>
+        {% endif %}
+    </section>
+
+    <hr>
+
+    <!-- Раздел "Бесплатная оценка шансов" -->
+    <section id="assessment">
+        <h2>Бесплатная оценка шансов</h2>
+        <!-- Кнопка для авторизованных пользователей -->
+        {% if user.is_authenticated %}
+            <a href="{% url 'free_assessment_canada' canada_visa_type.id %}" class="btn btn-primary">Оценить шансы</a>
+        {% else %}
+            <!-- Кнопка для неавторизованных пользователей -->
+            <a href="{% url 'login' %}?next={% url 'free_assessment_canada' canada_visa_type.id %}" class="btn btn-primary">Оценить шансы</a>
+            <p>Чтобы отслеживать статус заявки, войдите в систему или <a href="{% url 'free_assessment_guest_canada' canada_visa_type.id %}">оцените шансы без регистрации</a>.</p>
+        {% endif %}
+    </section>
+
+    <hr>
+
+    <!-- Раздел "Заказать визу" -->
+    <section id="order">
+        <h2>Заказать визу</h2>
+        <div class="row">
+            {% for visa_type in visa_types %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ visa_type.name }}</h5>
+                        <p class="card-text">Цена: {{ visa_type.price }} USD</p>
+                        <a href="{% url 'order_visa' visa_type.id %}" class="btn btn-success">Заказать</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <hr>
+
+    <!-- Раздел "FAQ" -->
+    <section id="faq">
+        <h2>FAQ</h2>
+        {% if faq %}
+            <ul>
+                {% for question in faq %}
+                <li>
+                    <strong>Вопрос:</strong> {{ question.question }}<br>
+                    <strong>Ответ:</strong> {{ question.answer }}
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>FAQ пока не добавлены.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

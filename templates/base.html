@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ClickCheck{% endblock %}</title>
+    <!-- Подключение Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Подключение стилей -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">ClickCheck</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Левый блок: основные ссылки меню -->
+                <ul class="navbar-nav mr-auto">
+                    <!-- Визы в США с выпадающим меню -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="{% url 'visa_usa' %}">Визы в США</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'visa_usa' %}#types">Типы виз</a>
+                            <a class="dropdown-item" href="{% url 'visa_usa' %}#requirements">Основные требования</a>
+                            <a class="dropdown-item" href="{% url 'visa_usa' %}#assessment">Бесплатная оценка шансов</a>
+                            <a class="dropdown-item" href="{% url 'visa_usa' %}#order">Заказать визу</a>
+                            <a class="dropdown-item" href="{% url 'visa_usa' %}#faq">FAQ</a>
+                        </div>
+                    </li>
+
+                    <!-- Визы в Канаду с выпадающим меню -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="{% url 'visa_canada' %}">Визы в Канаду</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'visa_canada' %}#types">Типы виз</a>
+                            <a class="dropdown-item" href="{% url 'visa_canada' %}#requirements">Основные требования</a>
+                            <a class="dropdown-item" href="{% url 'visa_canada' %}#assessment">Бесплатная оценка шансов</a>
+                            <a class="dropdown-item" href="{% url 'visa_canada' %}#order">Заказать визу</a>
+                            <a class="dropdown-item" href="{% url 'visa_canada' %}#faq">FAQ</a>
+                        </div>
+                    </li>
+
+                    <!-- О нас -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">О нас</a>
+                    </li>
+
+                    <!-- Контакты -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Контакты</a>
+                    </li>
+                </ul>
+
+                <!-- Правый блок: Личный кабинет и кнопка "Выйти" -->
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <span class="navbar-text mr-2">Привет, {{ user.first_name }}!</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-logout" href="{% url 'logout' %}">Выйти</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Личный кабинет</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="container">
+        <!-- Здесь отображаются сообщения -->
+        {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}
+        <!-- Контент страниц -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-light text-center py-3">
+        <p>&copy; 2024 ClickCheck. All rights reserved.</p>
+    </footer>
+
+    <!-- Подключение Bootstrap JS и jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Подключение скриптов -->
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

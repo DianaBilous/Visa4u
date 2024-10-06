@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Мои тикеты
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Мои тикеты</h1>
+
+    <ul>
+        {% for ticket in tickets %}
+        <li>
+            <strong>{{ ticket.created_at|date:"d-m-Y H:i" }}:</strong>
+            <a href="{% url 'view_ticket_detail' ticket.id %}">{{ ticket.subject }}</a> 
+            (Статус: <span class="badge badge-info">{{ ticket.status }}</span>)
+        </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'create_ticket' %}" class="btn btn-primary mt-3">Создать новый тикет</a>
+</div>
+{% endblock %}
+

@@ -1,0 +1,218 @@
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6; /* Обновленный фон */
+    margin: 0;
+    padding: 0;
+}
+
+/* Стили для заголовков */
+h1, h2, h3 {
+    color: #2c3e50; /* Обновленный цвет заголовков */
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Основной контейнер */
+.container {
+    padding: 15px;
+}
+
+/* Стиль для хедера */
+header {
+    background-color: #ffffff;
+    padding: 20px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+/* Выпадающее меню */
+.nav-item.dropdown .dropdown-menu {
+    display: none;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    background-color: #f9f9f9; /* Фон подменю */
+    border-radius: 5px;
+    padding: 10px 0;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+}
+
+.dropdown-menu a {
+    padding: 10px 20px;
+    display: block;
+    color: #333;
+    text-align: left;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0; /* Цвет при наведении */
+    color: #007bff;
+}
+
+/* Стили для ссылок */
+a {
+    text-decoration: none;
+    color: #e74c3c; /* Новый акцентный цвет */
+    transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #c0392b; /* Цвет при наведении */
+}
+
+/* Стиль для кнопок */
+button {
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #c0392b;
+}
+
+/* Стили для форм */
+input[type="text"], input[type="email"], select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+button[type="submit"] {
+    background-color: #28a745; /* Зеленый для кнопки отправки */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* Стили для разделов сайта */
+section {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* Стиль для footer */
+footer {
+    background-color: #f1f1f1;
+    border-top: 2px solid #e5e5e5;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Скролл-поведение для якорных ссылок */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    /* Меняем отступы и размеры шрифтов для меньших экранов */
+    h1 {
+        font-size: 24px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .navbar-brand {
+        font-size: 18px;
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 20px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+
+    .navbar-brand {
+        font-size: 16px;
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 12px;
+    }
+
+    .container {
+        padding: 5px;
+    }
+
+    /* Адаптация выпадающего меню */
+    .navbar-nav {
+        flex-direction: column;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 10px;
+        text-align: left;
+    }
+}
+
+/* Кнопка "Выйти" */
+.btn-logout {
+    background-color: #dc3545; /* Красный цвет для кнопки "Выйти" */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #c82333;
+}
+
+/* Стили для навигации */
+.navbar-nav .nav-link {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}

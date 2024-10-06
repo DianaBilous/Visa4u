@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Заказ визы {{ visa_type.name }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Заказать визу: {{ visa_type.name }}</h1>
+
+    <p>Стоимость: {{ visa_type.price }} USD</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Оплатить и заказать</button>
+    </form>
+</div>
+{% endblock %}

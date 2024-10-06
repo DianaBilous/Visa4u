@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Личный кабинет
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Личный кабинет</h1>
+
+    <!-- Ссылка на редактирование профиля -->
+    <div class="mb-4">
+        <a href="{% url 'profile' %}" class="btn btn-primary">Редактировать профиль</a>
+    </div>
+
+    <!-- Кнопка создания тикета -->
+    <a href="{% url 'create_ticket' %}" class="btn btn-secondary mb-3">Создать тикет</a>
+
+    <!-- Секция заявок на бесплатную оценку шансов -->
+    <section id="assessments">
+        <h2>Заявки на бесплатную оценку шансов</h2>
+        {% if assessments %}
+            <ul>
+                {% for assessment in assessments %}
+                <li>
+                    <strong>{{ assessment.created_at|date:"d-m-Y H:i" }}:</strong>
+                    {{ assessment.travel_purpose }} ({{ assessment.country }}) 
+                    <span class="badge badge-info">{{ assessment.status }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Заявок на бесплатную оценку шансов пока нет.</p>
+        {% endif %}
+    </section>
+
+    <hr>
+
+    <!-- Секция заказов -->
+    <section id="orders">
+        <h2>Мои заказы</h2>
+        {% if orders %}
+            <ul>
+                {% for order in orders %}
+                <li>
+                    <strong>{{ order.order_date|date:"d-m-Y H:i" }}:</strong>
+                    Заказ на {{ order.visa_type.name }} 
+                    (Статус: <span class="badge badge-info">{{ order.status }}</span>)
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>У Вас пока нет заказов.</p>
+        {% endif %}
+    </section>
+
+    <hr>
+
+    <!-- Секция тикетов -->
+    <section id="tickets">
+        <h2>Мои тикеты</h2>
+        {% if tickets %}
+            <ul>
+                {% for ticket in tickets %}
+                <li>
+                    <strong>{{ ticket.created_at|date:"d-m-Y H:i" }}:</strong>
+                    <a href="{% url 'view_ticket_detail' ticket.id %}">{{ ticket.subject }}</a>
+                    <span class="badge badge-info">{{ ticket.get_status_display }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>У Вас пока нет тикетов.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}
