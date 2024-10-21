@@ -8,9 +8,20 @@ https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/
 """
 
 import os
-
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
+import apps.accounts.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Visa4u.settings')
 
-application = get_asgi_application()
+# Приложение ASGI будет поддерживать HTTP и WebSocket
+application = ProtocolTypeRouter({
+    "http": get_asgi_application(),  # Обычные HTTP-запросы
+    "websocket": AuthMiddlewareStack(  # WebSocket-соединения с авторизацией
+        URLRouter(
+            apps.accounts.routing.websocket_urlpatterns
+        )
+    ),
+})
+

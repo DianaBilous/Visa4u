@@ -13,9 +13,6 @@
         <a href="{% url 'profile' %}" class="btn btn-primary">Редактировать профиль</a>
     </div>
 
-    <!-- Кнопка создания тикета -->
-    <a href="{% url 'create_ticket' %}" class="btn btn-secondary mb-3">Создать тикет</a>
-
     <!-- Секция заявок на бесплатную оценку шансов -->
     <section id="assessments">
         <h2>Заявки на бесплатную оценку шансов</h2>
@@ -56,22 +53,5 @@
 
     <hr>
 
-    <!-- Секция тикетов -->
-    <section id="tickets">
-        <h2>Мои тикеты</h2>
-        {% if tickets %}
-            <ul>
-                {% for ticket in tickets %}
-                <li>
-                    <strong>{{ ticket.created_at|date:"d-m-Y H:i" }}:</strong>
-                    <a href="{% url 'view_ticket_detail' ticket.id %}">{{ ticket.subject }}</a>
-                    <span class="badge badge-info">{{ ticket.get_status_display }}</span>
-                </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>У Вас пока нет тикетов.</p>
-        {% endif %}
-    </section>
 </div>
 {% endblock %}

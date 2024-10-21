@@ -109,3 +109,14 @@ class FAQ(models.Model):
     def __str__(self):
         return f"FAQ: {self.question} for {self.visa_type.name}"
 
+
+class Consultation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    topic = models.CharField(max_length=255, verbose_name="Тема консультации")
+    date = models.DateField(verbose_name="Дата консультации")
+    time = models.TimeField(verbose_name="Время консультации")
+    additional_info = models.TextField(blank=True, null=True, verbose_name="Дополнительная информация")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+
+    def __str__(self):
+        return f"Консультация {self.topic} с {self.user.username} на {self.date} в {self.time}"

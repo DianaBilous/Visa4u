@@ -40,7 +40,17 @@ INSTALLED_APPS = [
 
     'apps.visas',
     'apps.accounts',
+
+    'channels',
 ]
+
+ASGI_APPLICATION = 'Visa4u.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # Для тестирования
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
