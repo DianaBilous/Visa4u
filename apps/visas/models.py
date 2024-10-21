@@ -52,9 +52,9 @@ class VisaAssessment(models.Model):
     ]
 
     STATUS_CHOICES = [
-        ('sent', 'Отправлена'),
+        ('received', 'Получена'),
         ('processing', 'В работе'),
-        ('done', 'Обработана'),
+        ('done', 'Готова'),
     ]
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -83,18 +83,33 @@ class VisaAssessment(models.Model):
     phone = models.CharField(max_length=20, verbose_name="Телефон")
     name = models.CharField(max_length=100, verbose_name="Имя")
     created_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active', verbose_name="Статус заявки")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='received', verbose_name="Статус заявки")
+    result = models.TextField(null=True, blank=True, verbose_name="Результат оценки")  # Поле для результата
+    recommendations = models.TextField(null=True, blank=True, verbose_name="Рекомендации")  # Поле для рекомендаций
 
     def __str__(self):
         return f"{self.name} - {self.email}"
 
 class VisaOrder(models.Model):
     """Модель для хранения заказов на визы"""
+
+    STATUS_CHOICES = [
+        ('paid', 'Оплачен'),
+        ('manager_assigned', 'Менеджер назначен'),
+        ('awaiting_documents', 'Ожидание документов'),
+        ('awaiting_interview', 'Ожидание записи'),
+        ('scheduled', 'Записан на собеседование'),
+        ('approved', 'Виза одобрена'),
+        ('denied', 'Отказ'),
+        ('completed', 'Заявка закрыта'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='visa_orders')
     visa_type = models.ForeignKey(VisaType, on_delete=models.CASCADE)
     order_date = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, choices=[('Pending', 'Pending'), ('In Progress', 'In Progress'), ('Completed', 'Completed')], default='Pending')
     comments = models.TextField(blank=True, null=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='paid', verbose_name="Статус заказа")
+    assigned_manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_orders')
 
     def __str__(self):
         return f"Visa order for {self.visa_type.name} by {self.user.username}"
@@ -111,12 +126,34 @@ class FAQ(models.Model):
 
 
 class Consultation(models.Model):
+    """Модель для хранения заказов на консультации"""
+
+    STATUS_CHOICES = [
+        ('paid', 'Оплачена'),
+        ('manager_assigned', 'Менеджер назначен'),
+        ('time_to_confirm', 'Согласование времени'),
+        ('time_scheduled', 'Время назначено'),
+        ('service_provided', 'Услуга оказана'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
     topic = models.CharField(max_length=255, verbose_name="Тема консультации")
     date = models.DateField(verbose_name="Дата консультации")
     time = models.TimeField(verbose_name="Время консультации")
     additional_info = models.TextField(blank=True, null=True, verbose_name="Дополнительная информация")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='paid', verbose_name="Статус консультации")
+    assigned_manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_consultations')
 
     def __str__(self):
         return f"Консультация {self.topic} с {self.user.username} на {self.date} в {self.time}"
+
+
+class DocumentUpload(models.Model):
+    order = models.ForeignKey(VisaOrder, on_delete=models.CASCADE, related_name='uploaded_documents')
+    file = models.FileField(upload_to='documents/')
+    document_type = models.CharField(max_length=255, verbose_name="Тип документа")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Документ для заказа {self.order.user.username} - {self.document_type}"

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from apps.visas.models import VisaAssessment, VisaOrder
+from apps.visas.models import VisaAssessment, VisaOrder, Consultation
 from .forms import UserRegisterForm, UserUpdateForm
 
 
@@ -29,16 +29,20 @@ def dashboard(request):
     # Заказы пользователя
     orders = VisaOrder.objects.filter(user=request.user)
 
+    # Консультации пользователя
+    consultations = Consultation.objects.filter(user=request.user)
+
     return render(request, 'accounts/dashboard.html', {
         'assessments': assessments,
         'orders': orders,
+        'consultations': consultations,  # Добавляем консультации
     })
 
 # Страница редактирования профиля
 @login_required
 def profile(request):
     if request.method == 'POST':
-        form = UserUpdateForm(request.POST, instance=request.user)
+        form = UserUpdateForm(request.POST, request.FILES, instance=request.user)  # Обработка файлов
         if form.is_valid():
             form.save()
             messages.success(request, 'Ваш профиль был успешно обновлен!')

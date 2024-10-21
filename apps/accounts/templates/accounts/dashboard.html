@@ -53,5 +53,23 @@
 
     <hr>
 
+    <!-- Секция консультаций -->
+    <section id="consultations">
+        <h2>Мои консультации</h2>
+        {% if consultations %}
+            <ul>
+                {% for consultation in consultations %}
+                <li>
+                    <strong>{{ consultation.date|date:"d-m-Y" }} {{ consultation.time|time:"H:i" }}:</strong>
+                    Консультация на тему: {{ consultation.topic }} 
+                    (Статус: <span class="badge badge-info">{{ consultation.status }}</span>)
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>У Вас пока нет консультаций.</p>
+        {% endif %}
+    </section>
+
 </div>
 {% endblock %}
