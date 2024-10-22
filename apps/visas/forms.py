@@ -1,5 +1,5 @@
 from django import forms
-from .models import VisaAssessment
+from .models import VisaAssessment, DocumentUpload
 from .constants import COUNTRY_CASES 
 
 class VisaAssessmentForm(forms.ModelForm):
@@ -27,3 +27,8 @@ class VisaAssessmentForm(forms.ModelForm):
         # Динамически изменяем текст меток для полей
         self.fields['previous_trips'].label = f"Были ли вы ранее в {country_prepositional}?"
         self.fields['relatives_in_country'].label = f"Есть ли у вас родственники или друзья в {country_prepositional}?"
+
+class DocumentUploadForm(forms.ModelForm):
+    class Meta:
+        model = DocumentUpload
+        fields = ['document_type', 'file']

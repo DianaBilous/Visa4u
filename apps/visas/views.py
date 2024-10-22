@@ -2,8 +2,8 @@ from django.contrib.auth.decorators import login_required
 from .constants import COUNTRY_CASES
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import VisaAssessmentForm
-from .models import Country, VisaType, VisaRequirement, VisaOrder, FAQ
+from .forms import VisaAssessmentForm, DocumentUploadForm
+from .models import Country, VisaType, VisaRequirement, VisaOrder, FAQ, DocumentUpload
 
 # Create your views here.
 
@@ -141,3 +141,22 @@ def order_visa(request, visa_type_id):
         return redirect('dashboard')  # Или страница подтверждения заказа
     
     return render(request, 'visas/order_visa.html', {'visa_type': visa_type})
+
+
+@login_required
+def upload_document(request, order_id):
+    order = get_object_or_404(VisaOrder, id=order_id)
+    
+    if request.method == 'POST':
+        form = DocumentUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            document = form.save(commit=False)
+            document.order = order
+            document.save()
+            return redirect('dashboard')  # После загрузки вернёмся в кабинет
+    else:
+        form = DocumentUploadForm()
+
+    return render(request, 'accounts/upload_document.html', {'form': form, 'order': order})
+
+

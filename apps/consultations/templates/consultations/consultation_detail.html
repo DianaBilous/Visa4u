@@ -1,0 +1,28 @@
+<!-- consultation_detail.html -->
+{% extends "base.html" %}
+
+{% block title %}Детали консультации{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Консультация: {{ consultation.topic }}</h1>
+    <p><strong>Дата:</strong> {{ consultation.date|date:"d-m-Y" }}<br>
+       <strong>Время:</strong> {{ consultation.time|time:"H:i" }}</p>
+    <p><strong>Статус:</strong> {{ consultation.get_status_display }}</p>
+    
+    <!-- Если назначен менеджер -->
+    {% if consultation.assigned_manager %}
+    <p><strong>Ваш менеджер:</strong> {{ consultation.assigned_manager.get_full_name }}</p>
+    {% endif %}
+    
+    <!-- Если статус услуги "Время назначено" или "Услуга оказана" -->
+    {% if consultation.status == 'time_scheduled' or consultation.status == 'service_provided' %}
+    <p><strong>Ссылка на консультацию:</strong> <a href="{{ consultation.zoom_link }}" target="_blank">Zoom комната</a></p>
+    {% endif %}
+    
+    <!-- Если время еще не назначено -->
+    {% if consultation.status == 'time_to_confirm' %}
+    <p>Мы свяжемся с вами для подтверждения времени. Если у вас есть пожелания по новому времени, вы можете написать в поддержку.</p>
+    {% endif %}
+</div>
+{% endblock %}

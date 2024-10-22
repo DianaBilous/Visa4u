@@ -288,3 +288,20 @@ html {
     margin-left: 10px;
     cursor: pointer;
 }
+
+/* Стиль кнопки заказа консультации */
+.btn-consultation {
+    background-color: #f39c12; /* Яркий оранжевый цвет */
+    color: white;
+    padding: 7px 15px;
+    border-radius: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease-in-out;
+    border: none;
+}
+
+.btn-consultation:hover {
+    background-color: #e67e22; /* Более темный оттенок при наведении */
+    text-decoration: none;
+}

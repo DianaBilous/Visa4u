@@ -15,7 +15,7 @@
 
     <!-- Секция заявок на бесплатную оценку шансов -->
     <section id="assessments">
-        <h2>Заявки на бесплатную оценку шансов</h2>
+        <h2>Мои заявки на оценку шансов</h2>
         {% if assessments %}
             <ul>
                 {% for assessment in assessments %}
@@ -30,8 +30,6 @@
             <p>Заявок на бесплатную оценку шансов пока нет.</p>
         {% endif %}
     </section>
-
-    <hr>
 
     <!-- Секция заказов -->
     <section id="orders">
@@ -51,8 +49,6 @@
         {% endif %}
     </section>
 
-    <hr>
-
     <!-- Секция консультаций -->
     <section id="consultations">
         <h2>Мои консультации</h2>
@@ -60,14 +56,13 @@
             <ul>
                 {% for consultation in consultations %}
                 <li>
-                    <strong>{{ consultation.date|date:"d-m-Y" }} {{ consultation.time|time:"H:i" }}:</strong>
-                    Консультация на тему: {{ consultation.topic }} 
-                    (Статус: <span class="badge badge-info">{{ consultation.status }}</span>)
+                    Консультация на тему: <a href="{% url 'consultation_detail' consultation.id %}">{{ consultation.topic }}</a> 
+                    (Статус: <span class="badge badge-info">{{ consultation.get_status_display }}</span>)
                 </li>
                 {% endfor %}
             </ul>
         {% else %}
-            <p>У Вас пока нет консультаций.</p>
+            <p>У Вас пока нет запланированных консультаций.</p>
         {% endif %}
     </section>
 

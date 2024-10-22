@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'apps.visas',
     'apps.accounts',
+    'apps.consultations',
 
     'channels',
 ]

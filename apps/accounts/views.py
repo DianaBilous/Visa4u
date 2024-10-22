@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from apps.visas.models import VisaAssessment, VisaOrder, Consultation
+from apps.visas.models import VisaAssessment, VisaOrder
+from apps.consultations.models import Consultation
 from .forms import UserRegisterForm, UserUpdateForm
 
 

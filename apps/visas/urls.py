@@ -13,4 +13,5 @@ urlpatterns = [
     # ОШ для незарегистрированных пользователей
     path('assessment/<int:visa_type_id>/guest/usa/', views.free_assessment_guest, {'country': 'США'}, name='free_assessment_guest_usa'),
     path('assessment/<int:visa_type_id>/guest/canada/', views.free_assessment_guest, {'country': 'Канада'}, name='free_assessment_guest_canada'),
+
 ]

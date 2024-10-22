@@ -58,6 +58,10 @@
 
                 <!-- Правый блок: Личный кабинет и кнопка "Выйти" -->
                 <ul class="navbar-nav ml-auto">
+                    <!-- Кнопка заказа консультации -->
+                    <li class="nav-item">
+                        <a href="{% url 'consultation_info' %}" class="btn btn-outline-primary ml-3">Заказать консультацию</a>
+                    </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'dashboard' %}">Привет, {{ user.first_name }}!</a>

@@ -94,7 +94,7 @@ class VisaOrder(models.Model):
     """Модель для хранения заказов на визы"""
 
     STATUS_CHOICES = [
-        ('paid', 'Оплачен'),
+        ('paid', 'Заказ оплачен'),
         ('manager_assigned', 'Менеджер назначен'),
         ('awaiting_documents', 'Ожидание документов'),
         ('awaiting_interview', 'Ожидание записи'),
@@ -110,6 +110,7 @@ class VisaOrder(models.Model):
     comments = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='paid', verbose_name="Статус заказа")
     assigned_manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_orders')
+    required_documents = models.ManyToManyField(VisaDocument, blank=True)
 
     def __str__(self):
         return f"Visa order for {self.visa_type.name} by {self.user.username}"
@@ -123,30 +124,6 @@ class FAQ(models.Model):
 
     def __str__(self):
         return f"FAQ: {self.question} for {self.visa_type.name}"
-
-
-class Consultation(models.Model):
-    """Модель для хранения заказов на консультации"""
-
-    STATUS_CHOICES = [
-        ('paid', 'Оплачена'),
-        ('manager_assigned', 'Менеджер назначен'),
-        ('time_to_confirm', 'Согласование времени'),
-        ('time_scheduled', 'Время назначено'),
-        ('service_provided', 'Услуга оказана'),
-    ]
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
-    topic = models.CharField(max_length=255, verbose_name="Тема консультации")
-    date = models.DateField(verbose_name="Дата консультации")
-    time = models.TimeField(verbose_name="Время консультации")
-    additional_info = models.TextField(blank=True, null=True, verbose_name="Дополнительная информация")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='paid', verbose_name="Статус консультации")
-    assigned_manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_consultations')
-
-    def __str__(self):
-        return f"Консультация {self.topic} с {self.user.username} на {self.date} в {self.time}"
 
 
 class DocumentUpload(models.Model):

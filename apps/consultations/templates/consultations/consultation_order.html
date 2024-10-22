@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Заказ консультации{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Заказать консультацию</h1>
+    <p>Выберите тему консультации, укажите свои данные и выберите удобное время для её проведения.</p>
+
+    <!-- Форма для заказа консультации -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <!-- Кнопка отправки формы -->
+        <button type="submit" class="btn btn-primary">Оплатить консультацию</button>
+    </form>
+</div>
+
+
+<!-- Подключаем jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Когда пользователь выбирает дату
+        $('#datepicker').change(function() {
+            var selectedDate = $(this).val();
+            // Запрос на сервер для получения доступных временных слотов
+            $.ajax({
+                url: "{% url 'get_available_times' %}",
+                data: {
+                    'date': selectedDate
+                },
+                success: function(data) {
+                    var timeSelect = $('#timepicker');
+                    timeSelect.empty();
+                    // Добавляем первый вариант по умолчанию
+                    timeSelect.append('<option value="">Выберите время</option>');
+                    // Заполняем select доступными временными слотами
+                    $.each(data.available_times, function(index, time) {
+                        timeSelect.append('<option value="' + time + '">' + time + '</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}
