@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+import datetime
 
 # Create your models here.
 
@@ -41,9 +42,31 @@ class AvailableSlot(models.Model):
         return f"{self.date} {self.time} {'(Занято)' if self.is_booked else '(Свободно)'}"
 
     @classmethod
-    def generate_slots(cls, start_date, end_date):
-        """Генерация слотов с 9:00 до 19:00 (с шагом в 1 час) на указанный диапазон дат"""
-        for single_date in (start_date + timezone.timedelta(days=n) for n in range((end_date - start_date).days + 1)):
-            for hour in range(9, 19):
-                time = timezone.datetime.combine(single_date, timezone.time(hour, 0)).time()
-                cls.objects.get_or_create(date=single_date, time=time)
+    def generate_slots(cls, start_date, end_date, start_time=datetime.time(9, 0), end_time=datetime.time(18, 0), interval=60, manager=None):
+        """
+        Генерация слотов на указанный диапазон дат и времени с заданным интервалом.
+
+        :param start_date: Начальная дата диапазона
+        :param end_date: Конечная дата диапазона
+        :param start_time: Время начала рабочего дня (по умолчанию 9:00)
+        :param end_time: Время окончания рабочего дня (по умолчанию 18:00)
+        :param interval: Интервал между слотами в минутах (по умолчанию 60 минут)
+        :param manager: Менеджер, которому назначаются слоты (по умолчанию None)
+        """
+        current_date = start_date
+        while current_date <= end_date:
+            current_time = datetime.datetime.combine(current_date, start_time)
+            end_time_combined = datetime.datetime.combine(current_date, end_time)
+
+            while current_time <= end_time_combined:
+                # Создаем новый слот, если его еще нет
+                cls.objects.get_or_create(
+                    date=current_date,
+                    time=current_time.time(),
+                    defaults={'is_booked': False, 'manager': manager}
+                )
+                # Увеличиваем текущее время на интервал
+                current_time += datetime.timedelta(minutes=interval)
+
+            # Переход к следующей дате
+            current_date += datetime.timedelta(days=1)

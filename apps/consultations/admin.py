@@ -1,7 +1,9 @@
 from django.contrib import admin
-from .models import AvailableSlot, Consultation
+from django.urls import path
+from django.shortcuts import redirect
 from django.contrib import messages
-import datetime
+from django.core.management import call_command
+from .models import AvailableSlot, Consultation
 
 # Существующее отображение модели Consultation
 @admin.register(Consultation)
@@ -18,66 +20,29 @@ class AvailableSlotAdmin(admin.ModelAdmin):
     list_filter = ('date', 'is_booked')
     search_fields = ('date', 'time')
 
-    # Добавляем действие для генерации слотов
-    actions = ['generate_slots']
 
-    # Определение кастомного действия
-    def generate_slots(self, request, queryset):
-        if 'apply' in request.POST:
-            # Получаем данные из формы
-            start_date = request.POST.get('start_date')
-            end_date = request.POST.get('end_date')
-            start_time = request.POST.get('start_time')
-            end_time = request.POST.get('end_time')
-            interval = int(request.POST.get('interval', 60))  # Интервал в минутах
+    # Добавляем URL для кастомного действия
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('generate-slots/', self.admin_site.admin_view(self.generate_slots_view), name='generate_slots'),
+        ]
+        return custom_urls + urls
 
-            # Конвертируем строки в объекты datetime
-            try:
-                start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
-                end_date = datetime.datetime.strptime(end_date, '%Y-%m-%d').date()
-                start_time = datetime.datetime.strptime(start_time, '%H:%M').time()
-                end_time = datetime.datetime.strptime(end_time, '%H:%M').time()
+    # Представление для вызова команды
+    def generate_slots_view(self, request):
+        try:
+            # Вызываем команду generate_slots
+            call_command('generate_slots')
+            messages.success(request, 'Свободные слоты успешно сгенерированы!')
+        except Exception as e:
+            messages.error(request, f'Ошибка при генерации слотов: {e}')
 
-                current_date = start_date
-                while current_date <= end_date:
-                    current_time = datetime.datetime.combine(current_date, start_time)
-                    end_time_combined = datetime.datetime.combine(current_date, end_time)
+        # Возвращаемся на страницу списка объектов после выполнения команды
+        return redirect('admin:consultations_availableslot_changelist')
 
-                    while current_time <= end_time_combined:
-                        # Создаем новый слот
-                        AvailableSlot.objects.create(
-                            date=current_date,
-                            time=current_time.time(),
-                            is_booked=False,
-                            manager=request.user  # Назначаем текущего менеджера
-                        )
-                        # Увеличиваем текущее время на интервал
-                        current_time += datetime.timedelta(minutes=interval)
-
-                    current_date += datetime.timedelta(days=1)
-
-                messages.success(request, 'Слоты успешно сгенерированы!')
-                return redirect(request.get_full_path())  # Возвращаемся на ту же страницу после генерации слотов
-
-            except Exception as e:
-                messages.error(request, f'Ошибка: {e}')
-                return redirect(request.get_full_path())  # Возвращаемся на ту же страницу после ошибки
-
-        # Если это GET-запрос, показываем форму с полями
-        self.message_user(request, "Для генерации слотов заполните форму ниже.")
-        form_html = '''
-            <form method="post" style="padding: 10px;">
-                <label>Начальная дата:</label><br>
-                <input type="date" name="start_date" required><br><br>
-                <label>Конечная дата:</label><br>
-                <input type="date" name="end_date" required><br><br>
-                <label>Начальное время:</label><br>
-                <input type="time" name="start_time" required><br><br>
-                <label>Конечное время:</label><br>
-                <input type="time" name="end_time" required><br><br>
-                <label>Интервал (минуты):</label><br>
-                <input type="number" name="interval" value="60" required><br><br>
-                <button type="submit" name="apply" class="btn btn-primary">Сгенерировать слоты</button>
-            </form>
-        '''
-        self.message_user(request, form_html, level=messages.INFO)
+    # Добавляем кнопку на страницу списка объектов
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['generate_slots_url'] = 'admin:generate_slots'
+        return super().changelist_view(request, extra_context=extra_context)

@@ -8,7 +8,7 @@ import datetime
 
 # Create your views here.
 
-
+# Представление для отображения информации о консультации
 def consultation_info(request):
     return render(request, 'consultations/consultation_info.html')
 
@@ -37,17 +37,21 @@ def payment(request, consultation_id):
         consultation.status = 'paid'
         consultation.save()
         
-        # Отметим слот как занятый
-        slot = AvailableSlot.objects.get(date=consultation.date, time=consultation.time)
-        slot.is_booked = True
-        slot.save()
+        # Проверяем, что слот существует, перед тем как отметить его как занятый
+        try:
+            slot = AvailableSlot.objects.get(date=consultation.date, time=consultation.time)
+            slot.is_booked = True
+            slot.save()
+        except AvailableSlot.DoesNotExist:
+            messages.error(request, 'Выбранный слот больше недоступен. Пожалуйста, выберите другой слот.')
+            return redirect('consultation_order')
 
         messages.success(request, 'Оплата прошла успешно. Мы свяжемся с вами для подтверждения.')
         return redirect('dashboard')
 
     return render(request, 'consultations/payment.html', {'consultation': consultation})
 
-
+# Отображение деталей консультации
 @login_required
 def consultation_detail(request, consultation_id):
     consultation = get_object_or_404(Consultation, id=consultation_id)

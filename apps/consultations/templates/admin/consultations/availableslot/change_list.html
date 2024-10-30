@@ -1,0 +1,22 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools %}
+    <style>
+        .generate-slots-button {
+            background-color: #007bff;  /* Цвет фона */
+            color: #ffffff !important; /* Цвет текста */
+            padding: 10px 20px;         /* Внутренние отступы */
+            border-radius: 5px;         /* Скругление углов */
+            font-weight: bold;          /* Жирный текст */
+            text-decoration: none;      /* Убираем подчеркивание */
+        }
+        .generate-slots-button:hover {
+            background-color: #0056b3;  /* Цвет фона при наведении */
+        }
+    </style>
+    <div class="object-tools">
+        <a href="{% url generate_slots_url %}" class="button generate-slots-button">Сгенерировать слоты на 7 дней</a>
+    </div>
+    {{ block.super }}
+{% endblock %}
+
