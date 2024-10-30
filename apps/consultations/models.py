@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 import datetime
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -28,6 +29,11 @@ class Consultation(models.Model):
     zoom_link = models.URLField(max_length=255, blank=True, null=True, verbose_name="Ссылка на Zoom комнату")  # Поле для Zoom ссылки
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
+    def clean(self):
+        # Проверяем, если статус "Менеджер назначен", то поле assigned_manager не должно быть пустым
+        if self.status == 'manager_assigned' and self.assigned_manager is None:
+            raise ValidationError("Выберите менеджера, чтобы установить статус 'Менеджер назначен'.")
+
     def __str__(self):
         return f"Консультация {self.topic} с {self.user.username} на {self.date} в {self.time}"
     
@@ -37,6 +43,14 @@ class AvailableSlot(models.Model):
     time = models.TimeField(verbose_name="Время")
     is_booked = models.BooleanField(default=False, verbose_name="Занято")
     manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Менеджер")
+
+    def clean(self):
+        if self.date < timezone.now().date():
+            raise ValidationError("Нельзя создавать слоты на прошедшие даты.")
+
+    def save(self, *args, **kwargs):
+        self.clean()  # Проверка перед сохранением
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.date} {self.time} {'(Занято)' if self.is_booked else '(Свободно)'}"

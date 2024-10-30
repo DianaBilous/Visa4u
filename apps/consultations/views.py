@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
+from django.utils.dateparse import parse_date
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import ConsultationForm
 from .models import Consultation, AvailableSlot
-import datetime
 
 # Create your views here.
 
@@ -17,9 +18,22 @@ def consultation_order(request):
     if request.method == 'POST':
         form = ConsultationForm(request.POST)
         if form.is_valid():
-            consultation = form.save(commit=False)  # Создаем объект, но не сохраняем сразу
-            consultation.user = request.user  # Привязываем пользователя
-            consultation.save()  # Сохраняем объект в базу данных
+            consultation = form.save(commit=False)  # Создаем объект консультации, но не сохраняем сразу
+            consultation.user = request.user  # Привязываем консультацию к текущему пользователю
+            
+            # Получаем выбранные дату и время из формы
+            selected_date = form.cleaned_data.get('date')
+            selected_time = form.cleaned_data.get('time')
+            
+            # Проверяем, есть ли свободный слот с указанной датой и временем
+            slot = get_object_or_404(AvailableSlot, date=selected_date, time=selected_time, is_booked=False)
+            
+            # Помечаем слот как занятый
+            slot.is_booked = True
+            slot.save()
+
+            # Сохраняем консультацию
+            consultation.save()
             
             # Перенаправляем пользователя на страницу оплаты
             return redirect('payment', consultation_id=consultation.id)  # Передаем ID для оплаты
@@ -61,6 +75,22 @@ def consultation_detail(request, consultation_id):
 @login_required
 def get_available_times(request):
     selected_date = request.GET.get('date')
-    available_times = AvailableSlot.objects.filter(date=selected_date, is_booked=False).values_list('time', flat=True)
-    available_times = [time.strftime('%H:%M') for time in available_times]
-    return JsonResponse({'available_times': available_times})
+    print("Получена дата:", selected_date)  # Отладка: проверка полученной даты
+    
+    if selected_date:
+        selected_date = parse_date(selected_date)
+        print("Обработанная дата:", selected_date)  # Отладка: проверка преобразования
+        
+        today = timezone.now().date()
+        if selected_date < today:
+            print("Дата в прошлом, слоты недоступны.")
+            return JsonResponse({'available_times': []})
+
+        available_slots = AvailableSlot.objects.filter(date=selected_date, is_booked=False).order_by('time')
+        available_times = [slot.time.strftime('%H:%M') for slot in available_slots]
+        
+        print("Доступные слоты:", available_times)  # Отладка: проверка извлеченных слотов
+        return JsonResponse({'available_times': available_times})
+    
+    print("Дата не выбрана или некорректна.")
+    return JsonResponse({'available_times': []})

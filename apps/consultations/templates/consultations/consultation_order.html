@@ -19,31 +19,34 @@
 
 <!-- Подключаем jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
-        // Когда пользователь выбирает дату
-        $('#id_date').change(function() {  // Используем id, сгенерированный Django для поля даты
-            var selectedDate = $(this).val();
-            // Запрос на сервер для получения доступных временных слотов
+        // Обработчик изменения даты
+        $('#datepicker').change(function() {
+            var selectedDate = $(this).val(); // Получаем выбранную дату
+
+            if (!selectedDate) return;
+
+            // AJAX-запрос для получения доступных временных слотов на выбранную дату
             $.ajax({
-                url: "{% url 'get_available_times' %}",
-                data: {
-                    'date': selectedDate
-                },
+                url: "/consultations/get-available-times/",
+                data: { 'date': selectedDate },
                 success: function(data) {
-                    var timeSelect = $('#id_time');  // Используем id, сгенерированный Django для поля времени
-                    timeSelect.empty();
-                    // Добавляем первый вариант по умолчанию
+                    // Заполняем выпадающий список доступными временными слотами
+                    var timeSelect = $('#timepicker');
+                    timeSelect.empty(); // Очищаем список перед заполнением
                     timeSelect.append('<option value="">Выберите время</option>');
-                    // Заполняем select доступными временными слотами
+
                     $.each(data.available_times, function(index, time) {
                         timeSelect.append('<option value="' + time + '">' + time + '</option>');
                     });
+                },
+                error: function() {
+                    alert("Не удалось загрузить доступные временные слоты. Попробуйте снова.");
                 }
             });
         });
     });
 </script>
-
 {% endblock %}
+

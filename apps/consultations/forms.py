@@ -1,11 +1,19 @@
 from django import forms
+from django.utils import timezone
 from .models import Consultation
 
 class ConsultationForm(forms.ModelForm):
-    phone = forms.CharField(max_length=15, label="Телефон", required=True,
-                            widget=forms.TextInput(attrs={'placeholder': 'Введите ваш номер телефона'}))
-    email = forms.EmailField(label="Электронная почта", required=True,
-                             widget=forms.EmailInput(attrs={'placeholder': 'Введите вашу электронную почту'}))
+    phone = forms.CharField(
+        max_length=15, 
+        label="Телефон", 
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Введите ваш номер телефона'})
+    )
+    email = forms.EmailField(
+        label="Электронная почта", 
+        required=True,
+        widget=forms.EmailInput(attrs={'placeholder': 'Введите вашу электронную почту'})
+    )
 
     class Meta:
         model = Consultation
@@ -20,7 +28,16 @@ class ConsultationForm(forms.ModelForm):
                 ('Другие вопросы', 'Другие вопросы')
             ]),
             'additional_info': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Дополнительная информация (необязательно)'}),
-            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'id': 'datepicker'}),
+            
+            # Виджет для выбора даты с ограничением на выбор прошлых дат
+            'date': forms.DateInput(attrs={
+                'type': 'date', 
+                'class': 'form-control', 
+                'id': 'datepicker',
+                'min': timezone.now().date().strftime('%Y-%m-%d')  # Установка минимальной даты на сегодняшнюю
+            }),
+            
+            # Виджет для выбора времени - пустой Select, который будет заполняться через AJAX
             'time': forms.Select(attrs={'class': 'form-control', 'id': 'timepicker'}),
         }
 

@@ -7,5 +7,5 @@ urlpatterns = [
     path('order/', views.consultation_order, name='consultation_order'),  # Заказ консультации
     path('payment/<int:consultation_id>/', views.payment, name='payment'),  # URL для оплаты
     path('consultation/<int:consultation_id>/', views.consultation_detail, name='consultation_detail'),
-    path('get_available_times/', views.get_available_times, name='get_available_times'),
+    path('get-available-times/', views.get_available_times, name='get_available_times'),
 ]
