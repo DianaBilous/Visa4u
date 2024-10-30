@@ -11,6 +11,7 @@ cryptography==43.0.3
 daphne==4.0.0
 Django==4.2
 django-allauth==65.0.2
+django-jazzmin==3.0.1
 hyperlink==21.0.0
 idna==3.10
 incremental==24.7.2

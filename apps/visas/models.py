@@ -45,12 +45,7 @@ class VisaAssessment(models.Model):
         ('yes', 'Да'),
         ('no', 'Нет'),
     ]
-
-    COUNTRY_CHOICES = [
-        ('USA', 'США'),
-        ('Canada', 'Канада')
-    ]
-
+    
     STATUS_CHOICES = [
         ('received', 'Получена'),
         ('processing', 'В работе'),
@@ -77,15 +72,14 @@ class VisaAssessment(models.Model):
     visited_countries = models.TextField(verbose_name="Зарубежные страны, которые вы посетили за последние 5 лет")
     deported = models.CharField(max_length=3, choices=YES_NO_CHOICES, verbose_name="Были ли Вы депортированы из других стран")
     illegal_stay = models.CharField(max_length=3, choices=YES_NO_CHOICES, verbose_name="Находились ли Вы когда-либо незаконно на территории другой страны")
-    
     additional_info = models.TextField(blank=True, null=True, verbose_name="Дополнительная информация")
     email = models.EmailField(verbose_name="Email")
     phone = models.CharField(max_length=20, verbose_name="Телефон")
     name = models.CharField(max_length=100, verbose_name="Имя")
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='received', verbose_name="Статус заявки")
-    result = models.TextField(null=True, blank=True, verbose_name="Результат оценки")  # Поле для результата
-    recommendations = models.TextField(null=True, blank=True, verbose_name="Рекомендации")  # Поле для рекомендаций
+    result = models.TextField(null=True, blank=True, verbose_name="Результат оценки")
+    recommendations = models.TextField(null=True, blank=True, verbose_name="Рекомендации")
 
     def __str__(self):
         return f"{self.name} - {self.email}"

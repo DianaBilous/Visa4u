@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +56,58 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Управление визовыми заявками",
+    "site_header": "Админка ClickCheck",
+    "welcome_sign": "Добро пожаловать в административную панель",
+    "site_brand": "ClickCheck Project",
+    # "site_logo": "your_logo.png", # добавить сюда лого
+    "show_ui_builder": True,
+
+    # Настройка меню с категориями
+    "topmenu_links": [
+        # Группа "Visas"
+        {"name": "Visas", "icon": "fas fa-passport", "models": [
+            {"name": "Countries", "model": "visas.country"},
+            {"name": "Visa Types", "model": "visas.visatype"},
+            {"name": "Visa Requirements", "model": "visas.visarequirement"},
+            {"name": "Visa Documents", "model": "visas.visadocument"},
+            {"name": "Visa Assessments", "model": "visas.visaassessment"},
+            {"name": "Visa Orders", "model": "visas.visaorder"},
+            {"name": "Document Uploads", "model": "visas.documentupload"},
+            {"name": "FAQs", "model": "visas.faq"},
+        ]},
+
+        # Группа "Consultations"
+        {"name": "Consultations", "icon": "fas fa-calendar-alt", "models": [
+            {"name": "Available Slots", "model": "consultations.availableslot"},
+            {"name": "Consultations", "model": "consultations.consultation"},
+        ]},
+
+        # Группа "Chat"
+        {"name": "Chat", "icon": "fas fa-comments", "models": [
+            {"name": "Messages", "model": "chat.message"},
+        ]},
+    ],
+
+    # Настройки иконок для моделей
+    "icons": {
+        "visas.Country": "fas fa-flag",
+        "visas.VisaType": "fas fa-passport",
+        "visas.VisaRequirement": "fas fa-file-alt",
+        "visas.VisaDocument": "fas fa-folder",
+        "visas.VisaAssessment": "fas fa-check-circle",
+        "visas.VisaOrder": "fas fa-file-signature",
+        "visas.FAQ": "fas fa-question-circle",
+        "visas.DocumentUpload": "fas fa-upload",
+        "consultations.AvailableSlot": "fas fa-calendar-check",
+        "consultations.Consultation": "fas fa-user-clock",
+        "chat.Message": "fas fa-comments",
+    },
+}
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
