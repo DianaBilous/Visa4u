@@ -57,6 +57,6 @@ def consultation_detail(request, consultation_id):
 @login_required
 def get_available_times(request):
     selected_date = request.GET.get('date')
-    available_slots = AvailableSlot.objects.filter(date=selected_date, is_booked=False)
-    available_times = [slot.time.strftime("%H:%M") for slot in available_slots]
+    available_times = AvailableSlot.objects.filter(date=selected_date, is_booked=False).values_list('time', flat=True)
+    available_times = [time.strftime('%H:%M') for time in available_times]
     return JsonResponse({'available_times': available_times})

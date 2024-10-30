@@ -21,9 +21,8 @@ class ConsultationForm(forms.ModelForm):
             ]),
             'additional_info': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Дополнительная информация (необязательно)'}),
             'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'id': 'datepicker'}),
-            'time': forms.Select(attrs={'class': 'form-control', 'id': 'timepicker'}),  # Используем select для времени
+            'time': forms.Select(attrs={'class': 'form-control', 'id': 'timepicker'}),
         }
-
 
 # class TimeSlot(models.Model):
 #     date = models.DateField(verbose_name="Дата")

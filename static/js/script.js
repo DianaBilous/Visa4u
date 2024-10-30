@@ -7,7 +7,7 @@ chatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
     const chatLog = document.getElementById('chat-log');
     const newMessage = document.createElement('p');
-    newMessage.textContent = data.message;
+    newMessage.innerHTML = `<strong>${data.username}:</strong> ${data.message}`; // Отображение имени пользователя и сообщения
     chatLog.appendChild(newMessage);
 };
 

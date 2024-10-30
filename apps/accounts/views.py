@@ -53,5 +53,3 @@ def profile(request):
     
     return render(request, 'accounts/profile.html', {'form': form})
 
-def chat_view(request):
-    return render(request, 'accounts/chat.html')

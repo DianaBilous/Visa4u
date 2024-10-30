@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 
@@ -31,11 +32,18 @@ class Consultation(models.Model):
     
 
 class AvailableSlot(models.Model):
-    """Модель для доступных слотов времени, создаваемых сотрудниками"""
-    manager = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Менеджер")
     date = models.DateField(verbose_name="Дата")
     time = models.TimeField(verbose_name="Время")
-    is_booked = models.BooleanField(default=False, verbose_name="Забронировано")
+    is_booked = models.BooleanField(default=False, verbose_name="Занято")
+    manager = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Менеджер")
 
     def __str__(self):
-        return f"{self.date} {self.time} - {self.manager.username} (Забронировано: {self.is_booked})"
+        return f"{self.date} {self.time} {'(Занято)' if self.is_booked else '(Свободно)'}"
+
+    @classmethod
+    def generate_slots(cls, start_date, end_date):
+        """Генерация слотов с 9:00 до 19:00 (с шагом в 1 час) на указанный диапазон дат"""
+        for single_date in (start_date + timezone.timedelta(days=n) for n in range((end_date - start_date).days + 1)):
+            for hour in range(9, 19):
+                time = timezone.datetime.combine(single_date, timezone.time(hour, 0)).time()
+                cls.objects.get_or_create(date=single_date, time=time)

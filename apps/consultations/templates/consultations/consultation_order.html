@@ -11,11 +11,11 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        
         <!-- Кнопка отправки формы -->
         <button type="submit" class="btn btn-primary">Оплатить консультацию</button>
     </form>
 </div>
-
 
 <!-- Подключаем jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -23,7 +23,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         // Когда пользователь выбирает дату
-        $('#datepicker').change(function() {
+        $('#id_date').change(function() {  // Используем id, сгенерированный Django для поля даты
             var selectedDate = $(this).val();
             // Запрос на сервер для получения доступных временных слотов
             $.ajax({
@@ -32,7 +32,7 @@
                     'date': selectedDate
                 },
                 success: function(data) {
-                    var timeSelect = $('#timepicker');
+                    var timeSelect = $('#id_time');  // Используем id, сгенерированный Django для поля времени
                     timeSelect.empty();
                     // Добавляем первый вариант по умолчанию
                     timeSelect.append('<option value="">Выберите время</option>');
