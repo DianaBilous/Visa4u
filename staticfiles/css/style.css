@@ -1,0 +1,307 @@
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6; /* Обновленный фон */
+    margin: 0;
+    padding: 0;
+}
+
+/* Стили для заголовков */
+h1, h2, h3 {
+    color: #2c3e50; /* Обновленный цвет заголовков */
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Основной контейнер */
+.container {
+    padding: 15px;
+}
+
+/* Стиль для хедера */
+header {
+    background-color: #ffffff;
+    padding: 20px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+/* Выпадающее меню */
+.nav-item.dropdown .dropdown-menu {
+    display: none;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 10px 0;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+}
+
+.dropdown-menu a {
+    padding: 10px 20px;
+    display: block;
+    color: #333;
+    text-align: left;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f0f0f0; /* Цвет при наведении */
+    color: #007bff;
+}
+
+
+/* Стили для форм */
+input[type="text"], input[type="email"], select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+button[type="submit"] {
+    background-color: #28a745; /* Зеленый для кнопки отправки */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* Стили для разделов сайта */
+section {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* Стиль для footer */
+footer {
+    background-color: #f1f1f1;
+    border-top: 2px solid #e5e5e5;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Скролл-поведение для якорных ссылок */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    /* Меняем отступы и размеры шрифтов для меньших экранов */
+    h1 {
+        font-size: 24px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .navbar-brand {
+        font-size: 18px;
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 20px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+
+    .navbar-brand {
+        font-size: 16px;
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 12px;
+    }
+
+    .container {
+        padding: 5px;
+    }
+
+    /* Адаптация выпадающего меню */
+    .navbar-nav {
+        flex-direction: column;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 10px;
+        text-align: left;
+    }
+}
+
+@media (max-width: 768px) {
+    .chat-window {
+        width: 90%; /* Чат займет почти всю ширину экрана на мобильных устройствах */
+        height: 50%; /* Станет ниже на небольших экранах */
+    }
+}
+
+/* Кнопка чата */
+.chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.chat-button img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Окно чата */
+.chat-window {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Заголовок чата */
+.chat-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Кнопка закрытия чата */
+.close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Лог сообщений */
+.chat-log {
+    padding: 10px;
+    flex: 1;
+    overflow-y: auto;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Сообщения чата */
+.chat-log p {
+    margin: 0;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Сообщение пользователя */
+.chat-log .user-message {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+    margin-left: 20%;
+}
+
+/* Сообщение поддержки */
+.chat-log .support-message {
+    background-color: #f1f1f1;
+    color: black;
+    align-self: flex-start;
+    margin-right: 20%;
+}
+
+/* Поле для ввода сообщения */
+.chat-input-container {
+    display: flex;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ccc;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.send-button {
+    background-color: #007bff;
+    border: none;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* Стиль кнопки заказа консультации */
+.btn-consultation {
+    background-color: #f39c12; /* Яркий оранжевый цвет */
+    color: white;
+    padding: 7px 15px;
+    border-radius: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease-in-out;
+    border: none;
+}
+
+.btn-consultation:hover {
+    background-color: #e67e22; /* Более темный оттенок при наведении */
+    text-decoration: none;
+}
