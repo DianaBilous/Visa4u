@@ -40,7 +40,7 @@ pip install -r requirements.txt
 
 Redis требуется для работы с каналами Django. Убедитесь, что Redis установлен и запущен:
 
-# На MacOS с использованием Homebrew
+#### На MacOS с использованием Homebrew
 ```bash
 brew install redis
 brew services start redis

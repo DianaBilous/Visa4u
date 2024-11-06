@@ -9,7 +9,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         # Определяем начальную и конечную даты для генерации
         today = timezone.now().date()
-        end_date = today + timezone.timedelta(days=7)   # создаем слоты на 30 дней вперед
+        end_date = today + timezone.timedelta(days=7)   # создаем слоты на 7 дней вперед
         start_time = datetime.time(9, 0)
         end_time = datetime.time(18, 0)
         interval = 60  # Интервал в минутах
