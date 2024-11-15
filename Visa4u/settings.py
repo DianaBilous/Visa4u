@@ -62,33 +62,36 @@ JAZZMIN_SETTINGS = {
     "site_title": "Управление визовыми заявками",
     "site_header": "Админка ClickCheck",
     "welcome_sign": "Добро пожаловать в административную панель",
-    "site_brand": "ClickCheck Project",
-    # "site_logo": "your_logo.png", # добавить сюда лого
+    "site_brand": "ClickCheck",
+    "site_logo": "images/logo.png",  # Добавьте сюда путь к логотипу
     "show_ui_builder": True,
 
     # Настройка меню с категориями
     "topmenu_links": [
-        # Группа "Visas"
-        {"name": "Visas", "icon": "fas fa-passport", "models": [
-            {"name": "Countries", "model": "visas.country"},
-            {"name": "Visa Types", "model": "visas.visatype"},
-            {"name": "Visa Requirements", "model": "visas.visarequirement"},
-            {"name": "Visa Documents", "model": "visas.visadocument"},
-            {"name": "Visa Assessments", "model": "visas.visaassessment"},
-            {"name": "Visa Orders", "model": "visas.visaorder"},
-            {"name": "Document Uploads", "model": "visas.documentupload"},
-            {"name": "FAQs", "model": "visas.faq"},
+        # Ссылка на главную страницу сайта
+        {"name": "Выйти на сайт", "url": "/", "new_window": True},
+        
+        # Группа "Визы"
+        {"name": "Визы", "icon": "fas fa-passport", "models": [
+            {"name": "Страны", "model": "visas.country"},
+            {"name": "Типы виз", "model": "visas.visatype"},
+            {"name": "Требования к визам", "model": "visas.visarequirement"},
+            {"name": "Документы для виз", "model": "visas.visadocument"},
+            {"name": "Оценка шансов", "model": "visas.visaassessment"},
+            {"name": "Заказы виз", "model": "visas.visaorder"},
+            {"name": "Загрузки документов", "model": "visas.documentupload"},
+            {"name": "Часто задаваемые вопросы", "model": "visas.faq"},
         ]},
 
-        # Группа "Consultations"
-        {"name": "Consultations", "icon": "fas fa-calendar-alt", "models": [
-            {"name": "Available Slots", "model": "consultations.availableslot"},
-            {"name": "Consultations", "model": "consultations.consultation"},
+        # Группа "Консультации"
+        {"name": "Консультации", "icon": "fas fa-calendar-alt", "models": [
+            {"name": "Доступные слоты", "model": "consultations.availableslot"},
+            {"name": "Консультации", "model": "consultations.consultation"},
         ]},
 
-        # Группа "Chat"
-        {"name": "Chat", "icon": "fas fa-comments", "models": [
-            {"name": "Messages", "model": "chat.message"},
+        # Группа "Чат"
+        {"name": "Чат", "icon": "fas fa-comments", "models": [
+            {"name": "Сообщения", "model": "chat.message"},
         ]},
     ],
 
@@ -107,7 +110,6 @@ JAZZMIN_SETTINGS = {
         "chat.Message": "fas fa-comments",
     },
 }
-
 
 
 MIDDLEWARE = [
@@ -176,7 +178,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
