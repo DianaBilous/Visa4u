@@ -1,10 +1,66 @@
 {% extends 'base.html' %}
-
-{% block title %}Главная{% endblock %}
+{% load static %}
+{% block title %}ClickCheck{% endblock %}
 
 {% block content %}
-    <h2>CLICKCHECK</h2>
-    <p>Мы поможем Вам получить визу в США и Канаду.</p>
+    <!-- Главный баннер -->
+    <section class="banner_section">
+        <h2>CLICKCHECK</h2>
+        <p>Мы поможем Вам получить визу в США и Канаду.</p>
+        <a href="{% url 'consultation_info' %}" class="btn btn-primary">Заказать консультацию</a>
+    </section>
+
+    <!-- О нас -->
+    <section class="about-section">
+        <h3>О нас</h3>
+        <p>Компания ClickCheck специализируется на предоставлении профессиональной помощи в оформлении виз в США и Канаду. Мы предлагаем персонализированные консультации и поддержку на всех этапах процесса.</p>
+    </section>
+
+    <!-- Услуги -->
+    <section class="services-section">
+        <h3>Наши услуги</h3>
+        <div class="services">
+            <div class="service">
+                <h4>Оформление визы в США</h4>
+                <p>Поможем вам с оформлением различных типов виз в США, включая туристические, студенческие и рабочие визы.</p>
+                <a href="{% url 'visa_usa' %}" class="btn btn-outline-primary">Узнать больше</a>
+            </div>
+            <div class="service">
+                <h4>Оформление визы в Канаду</h4>
+                <p>Консультации и помощь в получении виз в Канаду: туристических, учебных и рабочих.</p>
+                <a href="{% url 'visa_canada' %}" class="btn btn-outline-primary">Узнать больше</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Этапы оформления визы -->
+    <section class="steps-section">
+        <h3>Этапы оформления визы</h3>
+        <ol>
+            <li>Консультация и оценка шансов</li>
+            <li>Подготовка необходимых документов</li>
+            <li>Подача заявки и сопровождение на интервью</li>
+            <li>Получение визы</li>
+        </ol>
+    </section>
+
+    <!-- Отзывы клиентов -->
+    <section class="testimonials-section">
+        <h3>Отзывы наших клиентов</h3>
+        <blockquote>
+            <p>«С ClickCheck процесс получения визы прошел очень гладко! Огромное спасибо за профессионализм и помощь на всех этапах.»</p>
+            <footer>— Ирина К.</footer>
+        </blockquote>
+        <blockquote>
+            <p>«Помогли получить туристическую визу в Канаду. Консультанты очень вежливые и внимательные!»</p>
+            <footer>— Алексей Н.</footer>
+        </blockquote>
+    </section>
+
+    <!-- Контакты -->
+    <section class="contact-section">
+        <h3>Свяжитесь с нами</h3>
+        <p>Если у вас возникли вопросы, свяжитесь с нами, и мы будем рады помочь!</p>
+        <a href="{% url 'contact' %}" class="btn btn-primary">Контакты</a>
+    </section>
 {% endblock %}
-
-
