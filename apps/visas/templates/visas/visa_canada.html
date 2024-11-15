@@ -1,13 +1,21 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}
     Визы в Канаду
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1>Визы в Канаду</h1>
 
+<div class="banner">
+    <div class="banner-image">
+        <img src="{% static '/images/Canada_visa.jpg' %}" alt="Виза в Канаду" class="usa-banner-img">
+        <div class="banner-text">
+            <h1>Виза в Канаду</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
     <!-- Раздел "Типы виз" -->
     <section id="types">
         <h2>Типы виз</h2>

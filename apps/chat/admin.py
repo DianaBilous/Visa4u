@@ -1,16 +1,27 @@
 from django.contrib import admin
 from django.urls import path, reverse
 from django.utils.html import format_html
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from .models import Message
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 def send_admin_message(request, room_name):
     if request.method == "POST":
         text = request.POST.get("text")
         user = request.user
-        Message.objects.create(user=user, text=text, room=room_name, is_admin=True)
-        return HttpResponseRedirect(reverse('admin:chat_room_view', args=[room_name]))
+        message = Message.objects.create(user=user, text=text, room=room_name, is_admin=True)
+        # Отправляем сообщение в WebSocket-группу
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            f'chat_{room_name}',
+            {
+                'type': 'chat_message',
+                'message': text,
+                'username': 'Admin',
+            }
+        )
+        return redirect('admin:chat_room_view', room_name=room_name)
 
 @admin.register(Message)
 class ChatAdmin(admin.ModelAdmin):

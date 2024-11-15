@@ -1,6 +1,6 @@
 /* Основные стили */
 body {
-    font-family: Arial, sans-serif;
+   font-family: 'Roboto', sans-serif;
     background-color: #f4f7f6; /* Обновленный фон */
     margin: 0;
     padding: 0;
@@ -8,14 +8,16 @@ body {
 
 /* Стили для заголовков */
 h1, h2, h3 {
-    color: #2c3e50; /* Обновленный цвет заголовков */
+    /* color: #2c3e50;  */
     text-align: center;
     margin-top: 30px;
 }
 
 /* Основной контейнер */
 .container {
-    padding: 15px;
+    width: 100%;
+    padding: 0 2rem;
+    max-width: 100vw;
 }
 
 /* Стиль для хедера */
@@ -176,6 +178,13 @@ html {
     }
 }
 
+@media (max-width: 768px) {
+    .banner-text {
+        font-size: 8vw; /* Smaller text for mobile */
+        bottom: 15%;
+    }
+}
+
 /* Кнопка чата */
 .chat-button {
     position: fixed;
@@ -305,4 +314,32 @@ html {
 .btn-consultation:hover {
     background-color: #e67e22; /* Более темный оттенок при наведении */
     text-decoration: none;
+}
+
+/* CSS */
+.banner {
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    overflow: hidden;
+    margin: 0; /* Убираем отступы */
+    padding: 0; /* Убираем отступы */
+}
+
+.banner-image {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; /* Отключаем повторение изображения */
+    width: 100%;
+    height: 100%;
+}
+
+.banner-text {
+    position: absolute;
+    right: 20%; 
+    bottom: 70%; 
+    color: rgb(235, 85, 65);
+    font-size: 4em; 
+    font-weight: bold;
+    text-align: right;
 }
