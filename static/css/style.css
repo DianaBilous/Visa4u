@@ -1,38 +1,88 @@
 /* Основные стили */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #333;
+    --success-color: #28a745;
+    --warning-color: #f39c12;
+    --light-bg: #f4f7f6;
+    --white: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
 body {
-   font-family: 'Roboto', sans-serif;
-    background-color: #f4f7f6; /* Обновленный фон */
+    font-family: Arial, sans-serif;
+    background-color: var(--light-bg);
     margin: 0;
     padding: 0;
 }
 
 /* Стили для заголовков */
 h1, h2, h3 {
-    /* color: #2c3e50;  */
     text-align: center;
     margin-top: 30px;
 }
 
 /* Основной контейнер */
 .container {
-    width: 100%;
     padding: 0 2rem;
     max-width: 100vw;
+    box-sizing: border-box;
 }
 
 /* Стиль для хедера */
-header {
-    background-color: #ffffff;
+/* header {
+    background-color: var(--white);
     padding: 20px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px var(--shadow-color);
+} */
+
+/* .navbar { */
+    /* position: fixed; Фиксируем хедер сверху */
+    /* top: 0; */
+    /* left: 0; */
+    /* right: 0; */
+    /* z-index: 1000; Хедер всегда будет сверху */
+    /* background-color: rgba(255, 255, 255, 0.8); Полупрозрачный белый фон */
+    /* backdrop-filter: blur(5px); Размытие заднего плана */
+    /* transition: background-color 0.3s ease; Плавная анимация для изменений фона */
+    /* padding: 10px 20px; */
+    /* box-shadow: 0 2px 4px var(--shadow-color); Тень для придания глубины */
+/* } */
+
+/* Стиль для хедера */
+.custom-navbar {
+    position: fixed; /* Фиксируем хедер сверху */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Хедер всегда будет сверху */
+    background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный белый фон */
+    backdrop-filter: blur(5px); /* Размытие заднего фона */
+    transition: background-color 0.3s ease-in-out; /* Плавное изменение цвета */
+    padding: 20px 30px;
+    box-shadow: 0 2px 4px var(--shadow-color); /* Лёгкая тень */
 }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
+.custom-navbar.scrolled {
+    background-color: rgba(255, 255, 255, 1); /* Полностью непрозрачный фон при прокрутке */
 }
+
+/* Центрируем меню в блоке */
+.navbar-nav {
+    display: flex;
+    justify-content: center; /* Центрируем элементы внутри navbar-nav */
+}
+
+/* Стили ссылок в хедере */
+.navbar-nav .nav-link {
+    color: var(--secondary-color); /* Цвет текста ссылок */
+    transition: color 0.3s ease-in-out; /* Плавное изменение цвета */
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--primary-color); /* Цвет ссылок при наведении */
+}
+
 
 /* Выпадающее меню */
 .nav-item.dropdown .dropdown-menu {
@@ -52,13 +102,13 @@ header {
 .dropdown-menu a {
     padding: 10px 20px;
     display: block;
-    color: #333;
+    color: var(--secondary-color);
     text-align: left;
 }
 
 .dropdown-menu a:hover {
     background-color: #f0f0f0; /* Цвет при наведении */
-    color: #007bff;
+    color: var(--primary-color);
 }
 
 
@@ -67,20 +117,19 @@ input[type="text"], input[type="email"], select, textarea {
     width: 100%;
     padding: 10px;
     margin: 8px 0;
-    display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
 input[type="text"]:focus, input[type="email"]:focus, select:focus, textarea:focus {
-    border-color: #007bff;
+    border-color: var(--primary-color);
     outline: none;
 }
 
 button[type="submit"] {
-    background-color: #28a745; /* Зеленый для кнопки отправки */
-    color: white;
+    background-color: var(--success-color); /* Зеленый для кнопки отправки */
+    color: var(--white);
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
@@ -93,10 +142,10 @@ button[type="submit"]:hover {
 
 /* Стили для разделов сайта */
 section {
-    background-color: #ffffff;
+    background-color: var(--white);
     border-radius: 8px;
     padding: 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px var(--shadow-color);
     margin-bottom: 30px;
 }
 
@@ -107,12 +156,57 @@ footer {
     padding: 40px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
 }
 
 /* Скролл-поведение для якорных ссылок */
 html {
     scroll-behavior: smooth;
+}
+
+/* Стили для кнопки-гамбургера */
+.navbar-toggler {
+    display: none;
+    border: none;
+    padding: 10px;
+    background: transparent;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+}
+
+/* Медиа-запрос для мобильных устройств */
+@media (max-width: 991.98px) {
+    .navbar-toggler {
+        display: block;
+    }
+
+    .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 1rem;
+        display: none;
+    }
+
+    .navbar-collapse.show {
+        display: block;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+    }
+
+    .nav-item {
+        width: 100%;
+        text-align: center;
+    }
 }
 
 /* Адаптивные стили */
@@ -129,14 +223,37 @@ html {
     .container {
         padding: 10px;
     }
-
-    .navbar-brand {
-        font-size: 18px;
-    }
     
     .navbar-nav .nav-link {
         font-size: 14px;
     }
+
+    .chat-window {
+        width: 90%; /* Чат займет почти всю ширину экрана на мобильных устройствах */
+        height: 50%; /* Станет ниже на небольших экранах */
+    }
+
+    .banner {
+        height: 400px;
+    }
+
+    .visa-card .card-title {
+        font-size: 1.2rem;
+    }
+    
+    .visa-card .btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .banner h1 {
+        font-size: 2rem;
+    }
+
+    .banner h3 {
+        font-size: 1rem;
+    }
+
 }
 
 @media (max-width: 576px) {
@@ -146,14 +263,6 @@ html {
     
     h2 {
         font-size: 18px;
-    }
-
-    .navbar-brand {
-        font-size: 16px;
-    }
-    
-    .navbar-nav .nav-link {
-        font-size: 12px;
     }
 
     .container {
@@ -171,19 +280,6 @@ html {
     }
 }
 
-@media (max-width: 768px) {
-    .chat-window {
-        width: 90%; /* Чат займет почти всю ширину экрана на мобильных устройствах */
-        height: 50%; /* Станет ниже на небольших экранах */
-    }
-}
-
-@media (max-width: 768px) {
-    .banner-text {
-        font-size: 8vw; /* Smaller text for mobile */
-        bottom: 15%;
-    }
-}
 
 /* Кнопка чата */
 .chat-button {
@@ -211,12 +307,11 @@ html {
     right: 20px;
     width: 300px;
     height: 400px;
-    background-color: white;
+    background-color: var(--white);
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    flex-direction: column;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -224,8 +319,8 @@ html {
 
 /* Заголовок чата */
 .chat-header {
-    background-color: #007bff;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--white);
     padding: 10px;
     font-weight: bold;
     display: flex;
@@ -260,8 +355,8 @@ html {
 
 /* Сообщение пользователя */
 .chat-log .user-message {
-    background-color: #007bff;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--white);
     align-self: flex-end;
     margin-left: 20%;
 }
@@ -269,7 +364,7 @@ html {
 /* Сообщение поддержки */
 .chat-log .support-message {
     background-color: #f1f1f1;
-    color: black;
+    color: var(--secondary-color);
     align-self: flex-start;
     margin-right: 20%;
 }
@@ -290,10 +385,10 @@ html {
 }
 
 .send-button {
-    background-color: #007bff;
+    background-color: var(--primary-color);
     border: none;
     padding: 10px;
-    color: white;
+    color: var(--white);
     border-radius: 5px;
     margin-left: 10px;
     cursor: pointer;
@@ -301,8 +396,8 @@ html {
 
 /* Стиль кнопки заказа консультации */
 .btn-consultation {
-    background-color: #f39c12; /* Яркий оранжевый цвет */
-    color: white;
+    background-color: var(--warning-color);
+    color: var(--white);
     padding: 7px 15px;
     border-radius: 25px;
     font-weight: bold;
@@ -313,33 +408,145 @@ html {
 
 .btn-consultation:hover {
     background-color: #e67e22; /* Более темный оттенок при наведении */
-    text-decoration: none;
 }
 
-/* CSS */
+main.container {
+    margin-top: 100px; /* Отступ для контента под фиксированным хедером */
+    padding-bottom: 60px;
+}
+
 .banner {
     position: relative;
     width: 100vw;
-    height: 80vh;
+    height: 100vh;
     overflow: hidden;
-    margin: 0; /* Убираем отступы */
-    padding: 0; /* Убираем отступы */
+    margin: 0;
+    padding: 0;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    margin-top: -100px; /* Компенсируем отступ для баннеров */
 }
 
 .banner-image {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat; /* Отключаем повторение изображения */
+    position: relative;
     width: 100%;
     height: 100%;
+    
+}
+
+.usa-banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .banner-text {
     position: absolute;
-    right: 20%; 
-    bottom: 70%; 
-    color: rgb(235, 85, 65);
-    font-size: 4em; 
+    right: 10%;
+    top: 30%;
+    transform: translateY(-50%);
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.banner-text h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.banner-text h3 {
+    font-size: 1.8em;
+    font-weight: 400;
+}
+
+.logo {
+    height: 60px; /* Размер логотипа */
+    width: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Стили карточек */
+.visa-card {
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: var(--white);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.visa-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.visa-card .card-title {
+    font-size: 1.5rem;
     font-weight: bold;
-    text-align: right;
+    color: var(--secondary-color);
+}
+
+.visa-card .btn {
+    border-radius: 20px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+}
+
+/* Часто задаемые вопросы */
+.faq-section {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.faq-question:hover {
+    color: #007bff;
+}
+
+.faq-icon {
+    font-size: 24px;
+    transition: transform 0.3s;
+}
+
+.faq-answer {
+    display: none;
+    font-size: 16px;
+    color: #555;
+    margin-top: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.faq-item.open .faq-answer {
+    display: block;
+}
+
+.faq-item.open .faq-icon {
+    transform: rotate(45deg); /* "+" меняется на "×" */
 }

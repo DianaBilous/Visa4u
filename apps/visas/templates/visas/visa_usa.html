@@ -82,24 +82,30 @@
     </section>
 
     <!-- Раздел "FAQ" -->
-    <section id="faq" class="mt-5" data-aos="fade-up">
-        <h2>Часто задаваемые вопросы</h2>
-        <div class="accordion" id="faqAccordion">
+    <section id="faq" class="faq-section">
+        <h2>Ответы на частые вопросы</h2>
+        <div class="faq-container">
             {% for question in faq %}
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="heading{{ question.id }}">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ question.id }}" aria-expanded="false" aria-controls="collapse{{ question.id }}">
-                        {{ question.question }}
-                    </button>
-                </h2>
-                <div id="collapse{{ question.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ question.id }}" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        {{ question.answer }}
-                    </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>{{ question.question }}</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>{{ question.answer }}</p>
                 </div>
             </div>
             {% endfor %}
         </div>
     </section>
 </div>
+<!-- Добавляем JS для работы с FAQ -->
+<script>
+    function toggleFaq(element) {
+        const parent = element.parentElement;
+
+        // Переключение класса "open"
+        parent.classList.toggle("open");
+    }
+</script>
 {% endblock %}
