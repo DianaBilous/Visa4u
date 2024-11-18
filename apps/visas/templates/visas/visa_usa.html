@@ -62,16 +62,18 @@
     </section>
 
     <!-- Раздел "Заказать визу" -->
-    <section id="order">
+    <section id="order" class="mt-5">
         <h2>Заказать визу</h2>
-        <div class="row">
+        <div class="row justify-content-center">
             {% for visa_type in visa_types %}
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col-md-4 col-sm-6 mb-4" data-aos="zoom-in">
+                <div class="card visa-card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">{{ visa_type.name }}</h5>
-                        <p class="card-text">Цена: {{ visa_type.price }} USD</p>
-                        <a href="{% url 'order_visa' visa_type.id %}" class="btn btn-success">Заказать</a>
+                        <h5 class="card-title text-center">{{ visa_type.name }}</h5>
+                        <p class="card-text text-center">Цена: <span class="text-success font-weight-bold">{{ visa_type.price }} рублей</span></p>
+                        <div class="text-center">
+                            <a href="{% url 'order_visa' visa_type.id %}" class="btn btn-primary">Заказать</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -80,20 +82,24 @@
     </section>
 
     <!-- Раздел "FAQ" -->
-    <section id="faq">
-        <h2>FAQ</h2>
-        {% if faq %}
-            <ul>
-                {% for question in faq %}
-                <li>
-                    <strong>Вопрос:</strong> {{ question.question }}<br>
-                    <strong>Ответ:</strong> {{ question.answer }}
-                </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>FAQ пока не добавлены.</p>
-        {% endif %}
+    <section id="faq" class="mt-5" data-aos="fade-up">
+        <h2>Часто задаваемые вопросы</h2>
+        <div class="accordion" id="faqAccordion">
+            {% for question in faq %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ question.id }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ question.id }}" aria-expanded="false" aria-controls="collapse{{ question.id }}">
+                        {{ question.question }}
+                    </button>
+                </h2>
+                <div id="collapse{{ question.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ question.id }}" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        {{ question.answer }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </section>
 </div>
 {% endblock %}
