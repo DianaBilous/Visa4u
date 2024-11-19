@@ -11,5 +11,8 @@ class Message(models.Model):
     room = models.CharField(max_length=100)  # Название комнаты чата, если требуется
 
     def __str__(self):
-        sender = "Admin" if self.is_admin else self.user.username
-        return f"{sender}: {self.text}"
+        if self.is_admin:
+            sender = "Admin"
+        else:
+            sender = self.user.username if self.user else "Anonymous"
+        return f"{sender}: {self.text[:50]}"

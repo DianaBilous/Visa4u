@@ -19,6 +19,8 @@ from django.urls import path, include
 from .views import home_page, about_page, contact_page, contact_submit
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import user_passes_test
+from django.conf.urls import handler404, handler500
+from Visa4u.views import custom_404, custom_500
 
 # Функция проверки группы
 def is_admin(user):
@@ -40,3 +42,7 @@ urlpatterns = [
     path('consultations/', include('apps.consultations.urls')), # Консультации
     path('chat/', include('apps.chat.urls')),  # Добавляем маршруты чата
 ]
+
+# Указываем обработчики ошибок
+handler404 = custom_404
+handler500 = custom_500

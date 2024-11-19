@@ -16,12 +16,19 @@ const chatSocket = new WebSocket(
 chatSocket.onmessage = function(e) {
     const data = JSON.parse(e.data);
     const chatLog = document.getElementById('chat-log');
+    chatLog.style.overflowY = 'auto';
+    chatLog.style.maxHeight = '400px';
     const newMessage = document.createElement('p');
 
     // Отображаем сообщение с именем пользователя
     newMessage.innerHTML = `<strong>${data.username}:</strong> ${data.message}`;
     chatLog.appendChild(newMessage);
 
+    requestAnimationFrame(() => {
+        const lastMessage = chatLog.lastElementChild;
+        lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    });
+    
     // Прокрутка вниз при новом сообщении
     chatLog.scrollTop = chatLog.scrollHeight;
 };

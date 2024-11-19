@@ -60,16 +60,20 @@
     </section>
 
     <!-- Раздел "Заказать визу" -->
-    <section id="order">
+    <section id="order" class="mt-5">
         <h2>Заказать визу</h2>
-        <div class="row">
+        <div class="row justify-content-center">
             {% for visa_type in visa_types %}
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col-md-4 col-sm-6 mb-4" data-aos="fade-up">
+                <div class="card visa-card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">{{ visa_type.name }}</h5>
-                        <p class="card-text">Цена: {{ visa_type.price }} USD</p>
-                        <a href="{% url 'order_visa' visa_type.id %}" class="btn btn-success">Заказать</a>
+                        <h5 class="card-title text-center">{{ visa_type.name }}</h5>
+                        <p class="card-text text-center">
+                            <span class="text-success font-weight-bold">{{ visa_type.price }} рублей</span>
+                        </p>
+                        <div class="text-center">
+                            <a href="{% url 'order_visa' visa_type.id %}" class="btn btn-primary w-100">Заказать</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,20 +82,30 @@
     </section>
 
     <!-- Раздел "FAQ" -->
-    <section id="faq">
-        <h2>FAQ</h2>
-        {% if faq %}
-            <ul>
-                {% for question in faq %}
-                <li>
-                    <strong>Вопрос:</strong> {{ question.question }}<br>
-                    <strong>Ответ:</strong> {{ question.answer }}
-                </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>FAQ пока не добавлены.</p>
-        {% endif %}
+    <section id="faq" class="faq-section">
+        <h2>Ответы на частые вопросы</h2>
+        <div class="faq-container">
+            {% for question in faq %}
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>{{ question.question }}</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>{{ question.answer }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </section>
 </div>
+<!-- Добавляем JS для работы с FAQ -->
+<script>
+    function toggleFaq(element) {
+        const parent = element.parentElement;
+
+        // Переключение класса "open"
+        parent.classList.toggle("open");
+    }
+</script>
 {% endblock %}

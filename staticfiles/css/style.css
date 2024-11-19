@@ -9,17 +9,58 @@
     --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: var(--light-bg);
+/* Скролл-поведение для якорных ссылок */
+html, body {
+    scroll-behavior: smooth;
+    height: 100%;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    background-color: var(--light-bg);
+}
+
+/* Контент заполняет оставшееся пространство */
+main.container {
+    flex: 1; /* Растягиваем контент по высоте */
+    margin-top: 80px; /* Отступ для фиксированного хедера */
+    padding: 20px; /* Добавляем отступы внутри контента */
+}
+
+.content {
+    flex: 1; /* Растягиваем основной контент по высоте */
+}
+
+/* Стиль для footer */
+.footer {
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 20px;
+    border-top: 2px solid #e5e5e5;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Стили для заголовков */
 h1, h2, h3 {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+/* Стили для разделов сайта */
+section {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 10px 20px; /* Уменьшение внутренних отступов */
+    padding-bottom: 30px; /* Увеличение нижнего отступа */
+    margin-bottom: 15px; /* Уменьшение расстояния между секциями */
+    box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+/* Стили для секций */
+section p {
+    margin: 5px 0; /* Минимальные отступы между абзацами */
 }
 
 /* Основной контейнер */
@@ -138,29 +179,6 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: #218838;
-}
-
-/* Стили для разделов сайта */
-section {
-    background-color: var(--white);
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 2px 8px var(--shadow-color);
-    margin-bottom: 30px;
-}
-
-/* Стиль для footer */
-footer {
-    background-color: #f1f1f1;
-    border-top: 2px solid #e5e5e5;
-    padding: 40px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Скролл-поведение для якорных ссылок */
-html {
-    scroll-behavior: smooth;
 }
 
 /* Стили для кнопки-гамбургера */
@@ -301,7 +319,7 @@ html {
 
 /* Окно чата */
 .chat-window {
-    display: none; /* Скрыто по умолчанию */
+    display: flex;
     position: fixed;
     bottom: 80px;
     right: 20px;
@@ -312,7 +330,6 @@ html {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    display: flex;
     flex-direction: column;
     overflow: hidden;
 }
@@ -339,11 +356,31 @@ html {
 
 /* Лог сообщений */
 .chat-log {
-    padding: 10px;
     flex: 1;
     overflow-y: auto;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 60px; /* Space for input container */
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) #f1f1f1;
+}
+
+/* Стили для webkit браузеров (Chrome, Safari) */
+.chat-log::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-log::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.chat-log::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+.chat-log::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
 }
 
 /* Сообщения чата */
@@ -371,10 +408,14 @@ html {
 
 /* Поле для ввода сообщения */
 .chat-input-container {
-    display: flex;
-    padding: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     background-color: #f9f9f9;
+    padding: 10px;
     border-top: 1px solid #ccc;
+    z-index: 2;
 }
 
 .chat-input {
@@ -410,10 +451,7 @@ html {
     background-color: #e67e22; /* Более темный оттенок при наведении */
 }
 
-main.container {
-    margin-top: 100px; /* Отступ для контента под фиксированным хедером */
-    padding-bottom: 60px;
-}
+
 
 .banner {
     position: relative;

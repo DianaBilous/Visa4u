@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!npo1gn8cu774!5uv3ar(t^43fx2eilh-67w=pomu()uird2o_'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG=False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -205,9 +208,9 @@ LOGOUT_REDIRECT_URL = '/'         # Переадресация на главну
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'db.prokhorova@gmail.com'  # Почта, с которой будут отправляться письма
-EMAIL_HOST_PASSWORD = 'flfg mmyb nziz xwly'  # Пароль или пароль приложения для Gmail
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Почта, с которой будут отправляться письма
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Пароль или пароль приложения для Gmail
 DEFAULT_FROM_EMAIL = 'noreply@clickcheck.com'  # Это будет указано как "От кого" в письме

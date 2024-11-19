@@ -6,7 +6,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         # Определение комнаты чата
         self.room_name = self.scope['url_route']['kwargs']['room_name']
-        self.room_group_name = f'chat_{self.room_name}'
+        self.room_group_name = self.room_name
 
         # Добавляем канал в группу
         await self.channel_layer.group_add(
@@ -29,7 +29,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def get_chat_history(self, room_name):
         from .models import Message
         return list(
-        Message.objects.filter(room=f'chat_{room_name}').order_by('timestamp').values('user__username', 'text', 'timestamp')
+        Message.objects.filter(room=room_name).order_by('timestamp').values('user__username', 'text', 'timestamp')
         )
 
     async def disconnect(self, close_code):
