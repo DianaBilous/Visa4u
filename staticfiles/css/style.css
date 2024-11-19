@@ -1,4 +1,3 @@
-/* Основные стили */
 :root {
     --primary-color: #007bff;
     --secondary-color: #333;
@@ -9,30 +8,31 @@
     --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Скролл-поведение для якорных ссылок */
+/* Основные стили */
 html, body {
-    scroll-behavior: smooth;
+    scroll-behavior: smooth; /* Скролл-поведение для якорных ссылок */
     height: 100%;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    font-family: Arial, sans-serif;
+    font-family: 'Nunito', Arial, sans-serif;
     background-color: var(--light-bg);
 }
 
-/* Контент заполняет оставшееся пространство */
+
+/* Контент */
 main.container {
     flex: 1; /* Растягиваем контент по высоте */
-    margin-top: 80px; /* Отступ для фиксированного хедера */
-    padding: 20px; /* Добавляем отступы внутри контента */
+    margin-top: 100px;
+    padding-bottom: 30px;
 }
 
 .content {
-    flex: 1; /* Растягиваем основной контент по высоте */
+    flex: 1;
 }
 
-/* Стиль для footer */
+/* Футер */
 .footer {
     background-color: #f1f1f1;
     text-align: center;
@@ -41,54 +41,37 @@ main.container {
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Стили для заголовков */
+/* Заголовки */
 h1, h2, h3 {
     text-align: center;
     margin-top: 5px;
     margin-bottom: 20px;
 }
 
-/* Стили для разделов сайта */
+/* Секции */
 section {
     background-color: var(--white);
     border-radius: 8px;
-    padding: 10px 20px; /* Уменьшение внутренних отступов */
-    padding-bottom: 30px; /* Увеличение нижнего отступа */
-    margin-bottom: 15px; /* Уменьшение расстояния между секциями */
+    padding: 10px 20px;
+    margin-bottom: 15px;
     box-shadow: 0 2px 6px var(--shadow-color);
 }
 
-/* Стили для секций */
-section p {
-    margin: 5px 0; /* Минимальные отступы между абзацами */
+section.with-extra-padding {
+    padding-bottom: 30px; /* Увеличиваем отступ только для нужных секций */
 }
 
-/* Основной контейнер */
+/* Параграфы */
+section p {
+    margin: 5px 0;
+}
+
+/* Контейнер */
 .container {
     padding: 0 2rem;
     max-width: 100vw;
     box-sizing: border-box;
 }
-
-/* Стиль для хедера */
-/* header {
-    background-color: var(--white);
-    padding: 20px 0;
-    box-shadow: 0 2px 4px var(--shadow-color);
-} */
-
-/* .navbar { */
-    /* position: fixed; Фиксируем хедер сверху */
-    /* top: 0; */
-    /* left: 0; */
-    /* right: 0; */
-    /* z-index: 1000; Хедер всегда будет сверху */
-    /* background-color: rgba(255, 255, 255, 0.8); Полупрозрачный белый фон */
-    /* backdrop-filter: blur(5px); Размытие заднего плана */
-    /* transition: background-color 0.3s ease; Плавная анимация для изменений фона */
-    /* padding: 10px 20px; */
-    /* box-shadow: 0 2px 4px var(--shadow-color); Тень для придания глубины */
-/* } */
 
 /* Стиль для хедера */
 .custom-navbar {
@@ -451,8 +434,6 @@ button[type="submit"]:hover {
     background-color: #e67e22; /* Более темный оттенок при наведении */
 }
 
-
-
 .banner {
     position: relative;
     width: 100vw;
@@ -587,4 +568,17 @@ button[type="submit"]:hover {
 
 .faq-item.open .faq-icon {
     transform: rotate(45deg); /* "+" меняется на "×" */
+}
+
+/* Общие стили для ошибок */
+form .errorlist {
+    color: red; /* Красный текст для ошибок */
+    font-size: 14px; /* Размер текста ошибок */
+    margin-top: 5px; /* Отступ сверху */
+    list-style-type: none; /* Убираем маркеры списка */
+    padding-left: 0; /* Убираем отступы списка */
+}
+
+form .errorlist li {
+    margin-bottom: 5px; /* Расстояние между строками ошибок */
 }

@@ -166,3 +166,6 @@ venv/
 
 # Игнорировать системный файл macOS
 .DS_Store
+
+
+staticfiles/

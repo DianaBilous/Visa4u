@@ -2,13 +2,19 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
 from apps.visas.models import VisaAssessment, VisaOrder
 from apps.consultations.models import Consultation
-from .forms import UserRegisterForm, UserUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, UserLoginForm, CustomPasswordChangeForm
 
 
 # Представление для регистрации пользователя
 def register(request):
+    # Если пользователь уже вошёл в систему, перенаправляем
+    if request.user.is_authenticated:
+        return redirect('dashboard')  # Перенаправляем на личный кабинет
+
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -16,7 +22,7 @@ def register(request):
             login(request, user)  # Автоматически авторизуем пользователя
             username = form.cleaned_data.get('username')
             messages.success(request, f'Ваш аккаунт был создан: {username} и вы вошли в систему!')
-            return redirect('home')  # Перенаправление на главную страницу
+            return redirect('dashboard')  # Перенаправляем на личный кабинет
     else:
         form = UserRegisterForm()
     return render(request, 'accounts/register.html', {'form': form})
@@ -53,3 +59,23 @@ def profile(request):
     
     return render(request, 'accounts/profile.html', {'form': form})
 
+# Представление для логина
+def user_login(request):
+    # Если пользователь уже вошёл в систему, перенаправляем
+    if request.user.is_authenticated:
+        return redirect('dashboard')  # Перенаправляем на личный кабинет
+    
+    if request.method == 'POST':
+        form = UserLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('dashboard')  # Перенаправление на главную страницу
+    else:
+        form = UserLoginForm()
+    return render(request, 'accounts/login.html', {'form': form})
+
+class CustomPasswordChangeView(PasswordChangeView):
+    form_class = CustomPasswordChangeForm
+    template_name = 'accounts/password_change.html'
+    success_url = reverse_lazy('password_change_done')
