@@ -42,13 +42,28 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
+
+    # Django apps
+    'django.contrib.sites',  # django-allauth
+
+    # django-allauth apps
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    
+    # Социальные провайдеры
+    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.yandex',
+    # 'allauth.socialaccount.providers.vk',
 
     'apps.visas',
     'apps.accounts',
     'apps.consultations',
-    'channels',
     'apps.chat',
 ]
+
+SITE_ID = 3
 
 ASGI_APPLICATION = 'Visa4u.asgi.application'
 
@@ -123,6 +138,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'Visa4u.urls'
@@ -200,12 +216,22 @@ STATICFILES_DIRS = [
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Стандартная аутентификация Django
+    'allauth.account.auth_backends.AuthenticationBackend',  # Аутентификация через соцсети
+]
+
+# Настройки авторизации
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Вход через email
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Email подтверждение
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Настройки для перенаправлений после аутентификации
 LOGIN_REDIRECT_URL = 'dashboard'  # Переадресация на личный кабинет после входа
 LOGOUT_REDIRECT_URL = '/'         # Переадресация на главную страницу после выхода
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')

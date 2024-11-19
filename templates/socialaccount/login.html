@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Вход через социальные сети
+{% endblock %}
+
+{% block content %}
+<main class="container">
+    <h1>Вход через {{ provider.name }}</h1>
+    <p>Вы собираетесь войти, используя стороннюю учетную запись из {{ provider.name }}.</p>
+    <form method="post" action="">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-google">
+            <i class="fab fa-google"></i> Продолжить с Google
+        </button>
+    </form>
+</main>
+{% endblock %}

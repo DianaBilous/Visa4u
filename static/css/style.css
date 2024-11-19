@@ -582,3 +582,62 @@ form .errorlist {
 form .errorlist li {
     margin-bottom: 5px; /* Расстояние между строками ошибок */
 }
+
+
+/* Стили для кнопок социальных сетей */
+.social-login-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.social-login-buttons .social-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.social-login-buttons .social-btn i {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+/* Стиль для кнопки Google */
+.social-login-buttons .google {
+    background-color: #db4437;
+    border: none;
+}
+
+.social-login-buttons .google:hover {
+    background-color: #c33d2e;
+    transform: translateY(-2px);
+}
+
+.social-login-buttons .google:active {
+    background-color: #a5281f;
+    transform: translateY(1px);
+}
+
+/* Стиль для кнопки Google */
+.btn-google {
+    background-color: #db4437; /* Цвет Google */
+    color: white;
+    border: none;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-google:hover {
+    background-color: #c33d2e; /* Более тёмный цвет на hover */
+    color: white;
+    text-decoration: none;
+}
