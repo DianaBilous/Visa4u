@@ -17,4 +17,6 @@ urlpatterns = [
     # Смена пароля
     path('password_change/', CustomPasswordChangeView.as_view(), name='password_change'),
     path('password_change/done/', PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'), name='password_change_done'),
+    path('order/<int:order_id>/', views.order_detail, name='order_detail'),
+    path('assessment/<int:assessment_id>/', views.assessment_detail, name='assessment_detail'),
 ]

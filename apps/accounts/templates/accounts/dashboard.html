@@ -24,9 +24,8 @@
             <ul>
                 {% for assessment in assessments %}
                 <li>
-                    <strong>{{ assessment.created_at|date:"d-m-Y H:i" }}:</strong>
-                    {{ assessment.travel_purpose }} ({{ assessment.country }}) 
-                    <span class="badge badge-info">{{ assessment.get_status_display }}</span>
+                    Ваша заявка: <a href="{% url 'assessment_detail' assessment.id %}">Оценка шансов {{ assessment.travel_purpose }}</a>
+                    (Статус заявки: <span class="badge badge-info">{{ assessment.get_status_display }}</span>)
                 </li>
                 {% endfor %}
             </ul>
@@ -42,7 +41,7 @@
             <ul>
                 {% for order in orders %}
                 <li>
-                    <strong>{{ order.visa_card.title }}</strong>
+                    Ваш заказ: <a href="{% url 'order_detail' order.id %}">{{ order.visa_card.title }}</a>
                     (Статус заказа: <span class="badge badge-info">{{ order.get_status_display }}</span>)
                 </li>
                 {% endfor %}

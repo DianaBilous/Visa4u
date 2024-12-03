@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Детали заявки{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3>Детали заявки на оценку шансов</h3>
+    <p><strong>Дата создания:</strong> {{ assessment.created_at|date:"d M Y H:i" }}</p>
+    <p><strong>Статус:</strong> {{ assessment.get_status_display }}</p>
+
+    {% if assessment.status == 'done' %}
+        <h4>Результат:</h4>
+        <p>{{ assessment.result }}</p>
+        <h4>Рекомендации:</h4>
+        <p>{{ assessment.recommendations }}</p>
+    {% else %}
+        <p>Ожидайте результат в течение суток.</p>
+    {% endif %}
+</div>
+{% endblock %}
+

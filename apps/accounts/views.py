@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -79,3 +79,25 @@ class CustomPasswordChangeView(PasswordChangeView):
     form_class = CustomPasswordChangeForm
     template_name = 'accounts/password_change.html'
     success_url = reverse_lazy('password_change_done')
+
+# Представление для отображения информации о заказе
+@login_required
+def order_detail(request, order_id):
+    order = get_object_or_404(VisaOrder, id=order_id, user=request.user)
+
+    if request.method == 'POST':
+        if 'passport_photo' in request.FILES:
+            passport_photo = request.FILES['passport_photo']
+            email = request.POST.get('email')
+            # Логика для сохранения документов
+            order.required_documents.add(passport_photo)
+            # Дополнительные действия (например, уведомление менеджера)
+            messages.success(request, "Документы успешно отправлены.")
+            return redirect('order_detail', order_id=order.id)
+    return render(request, 'accounts/order_detail.html', {'order': order})
+
+# Представление для отображения информации о заявке на оценку шансов
+@login_required
+def assessment_detail(request, assessment_id):
+    assessment = get_object_or_404(VisaAssessment, id=assessment_id, user=request.user)
+    return render(request, 'accounts/assessment_detail.html', {'assessment': assessment})

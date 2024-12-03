@@ -144,6 +144,9 @@ class VisaOrder(models.Model):
         User, on_delete=models.SET_NULL, null=True, blank=True, related_name='assigned_orders', verbose_name="Менеджер"
     )
     required_documents = models.ManyToManyField(VisaDocument, blank=True, verbose_name="Требуемые документы")
+    interview_date = models.DateField(blank=True, null=True, verbose_name="Дата собеседования")
+    interview_time = models.TimeField(blank=True, null=True, verbose_name="Время собеседования")
+    country = models.CharField(max_length=100, blank=True, null=True, verbose_name="Страна подачи")
 
     class Meta:
         verbose_name = "Заказ на визу"
@@ -151,7 +154,7 @@ class VisaOrder(models.Model):
         ordering = ['-order_date']
 
     def __str__(self):
-        return f"Заказ {self.visa_type.name} от {self.user.username}"
+        return f"Заказ {self.visa_card.title} от {self.user.username}"
 
     def is_completed(self):
         """Проверяет завершённость заказа."""

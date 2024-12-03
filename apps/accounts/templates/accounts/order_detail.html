@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Детали заказа{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Детали заказа</h1>
+
+    <!-- Основная информация о заказе -->
+    <p><strong>Виза:</strong> {{ order.visa_card.title }}</p>
+    <p><strong>Дата заказа:</strong> {{ order.order_date }}</p>
+    <p><strong>Статус:</strong> {{ order.get_status_display }}</p>
+    
+    {% if order.status == 'paid' %}
+        <div class="alert alert-info">
+            Благодарим за заказ! Мы назначим вам менеджера в течение суток.
+        </div>
+        <h4>Заполните заявление:</h4>
+        <p>Перейдите по <a href="https://docs.google.com/forms/d/your-form-id" target="_blank">ссылке</a>, чтобы заполнить заявление.</p>
+    {% elif order.status == 'manager_assigned' %}
+        <h4>Менеджер назначен</h4>
+        <p>Ваш менеджер: {{ order.assigned_manager.username }}</p>
+        <p>Пожалуйста, загрузите следующие документы:</p>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="passportPhoto" class="form-label">Фото паспорта</label>
+                <input type="file" class="form-control" id="passportPhoto" name="passport_photo" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Ваш Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ request.user.email }}" required>
+            </div>
+            <button type="submit" class="btn btn-success">Отправить документы</button>
+        </form>
+    {% elif order.status == 'awaiting_documents' %}
+        <div class="alert alert-info">
+            Мы ожидаем от вас необходимые документы. Пожалуйста, загрузите их через форму выше.
+        </div>
+    {% elif order.status == 'awaiting_interview' %}
+        <div class="alert alert-info">
+            Мы работаем над записью на собеседование. Ожидайте дальнейших инструкций.
+        </div>
+    {% elif order.status == 'scheduled' %}
+        <h4>Вы записаны на собеседование!</h4>
+        <p><strong>Страна:</strong> {{ order.country }}</p>
+        <p><strong>Дата:</strong> {{ order.interview_date }}</p>
+        <p><strong>Время:</strong> {{ order.interview_time }}</p>
+        <div class="alert alert-success">
+            Пожалуйста, убедитесь, что вы взяли с собой все необходимые документы для собеседования.
+        </div>
+    {% elif order.status == 'approved' %}
+        <div class="alert alert-success">
+            Поздравляем! Ваша виза была одобрена.
+        </div>
+    {% elif order.status == 'denied' %}
+        <div class="alert alert-danger">
+            К сожалению, ваша виза была отклонена. Пожалуйста, свяжитесь с вашим менеджером для получения дополнительных инструкций.
+        </div>
+    {% elif order.status == 'completed' %}
+        <div class="alert alert-info">
+            Заявка закрыта. Благодарим за использование наших услуг!
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
