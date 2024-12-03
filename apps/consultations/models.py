@@ -34,6 +34,10 @@ class Consultation(models.Model):
         if self.status == 'manager_assigned' and self.assigned_manager is None:
             raise ValidationError("Выберите менеджера, чтобы установить статус 'Менеджер назначен'.")
 
+    class Meta:
+        verbose_name = "Заказ на консультацию"
+        verbose_name_plural = "Заказы на консультации"
+
     def __str__(self):
         return f"Консультация {self.topic} с {self.user.username} на {self.date} в {self.time}"
     
@@ -52,6 +56,10 @@ class AvailableSlot(models.Model):
         self.clean()  # Проверка перед сохранением
         super().save(*args, **kwargs)
 
+    class Meta:
+        verbose_name = "Доступный слот"
+        verbose_name_plural = "Доступные слоты"
+        
     def __str__(self):
         return f"{self.date} {self.time} {'(Занято)' if self.is_booked else '(Свободно)'}"
 

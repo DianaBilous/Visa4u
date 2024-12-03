@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .constants import COUNTRY_CASES
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import VisaAssessmentForm, DocumentUploadForm
-from .models import Country, VisaType, VisaRequirement, VisaOrder, FAQ, DocumentUpload
+from .models import Country, VisaType, VisaRequirement, VisaOrder, FAQ, DocumentUpload, VisaCard
 
 # Create your views here.
 
@@ -20,12 +21,16 @@ def visa_usa(request):
     
     # Получаем FAQ по визам
     faq = FAQ.objects.filter(visa_type__country=country)
+
+    # Получаем карточки виз, связанные с США
+    visa_cards = VisaCard.objects.filter(country=country)
     
     return render(request, 'visas/visa_usa.html', {
         'visa_types': visa_types,
         'visa_requirements': visa_requirements,
         'faq': faq,
-        'usa_visa_type': visa_types.first()  # Для примера привязываем первую визу к бесплатной оценке шансов и заказу визы
+        'usa_visa_type': visa_types.first(),  # Для примера привязываем первую визу к бесплатной оценке шансов и заказу визы
+        'visa_cards': visa_cards,  # Передаём карточки в шаблон
     })
 
 # Визы в Канаду
@@ -41,12 +46,16 @@ def visa_canada(request):
     
     # Получаем FAQ по визам
     faq = FAQ.objects.filter(visa_type__country=country)
+
+    # Получаем карточки виз, связанные с Канадой
+    visa_cards = VisaCard.objects.filter(country=country)
     
     return render(request, 'visas/visa_canada.html', {
         'visa_types': visa_types,
         'visa_requirements': visa_requirements,
         'faq': faq,
-        'canada_visa_type': visa_types.first()  # Для примера привязываем первую визу к бесплатной оценке шансов и заказу визы
+        'canada_visa_type': visa_types.first(), # Для примера привязываем первую визу к бесплатной оценке шансов и заказу визы
+        'visa_cards': visa_cards,
     })
 
 # Представление для зарегистрированных пользователей
@@ -125,22 +134,23 @@ def free_assessment_guest(request, visa_type_id, country):
 
 
 @login_required
-def order_visa(request, visa_type_id):
-    # Получаем тип визы
-    visa_type = get_object_or_404(VisaType, id=visa_type_id)
+def order_visa(request, visa_card_id):
+    # Получаем карточку визы
+    visa_card = get_object_or_404(VisaCard, id=visa_card_id)
 
     if request.method == 'POST':
         # Создаем заказ
-        order = VisaOrder.objects.create(
-            user=request.user,
-            visa_type=visa_type,
-            price=visa_type.price,  # Предполагаем, что в модели VisaType есть поле price
-            status='Pending'
+        VisaOrder.objects.create(
+            user=request.user,  # Ссылка на текущего пользователя
+            visa_card=visa_card,  # Указываем текущую визу
+            comments=f"Заказ на визу: {visa_card.title}",  # Комментарий с названием визы
+            status='paid',  # Предполагается, что заказ сразу оплачивается
         )
+        messages.success(request, 'Оплата прошла успешно. Вы можете отслеживать статус заказа в личном кабинете.')
         # Перенаправляем пользователя на его личный кабинет или другую страницу
-        return redirect('dashboard')  # Или страница подтверждения заказа
+        return redirect('dashboard') 
     
-    return render(request, 'visas/order_visa.html', {'visa_type': visa_type})
+    return render(request, 'visas/order_visa.html', {'visa_card': visa_card})
 
 
 @login_required
@@ -159,4 +169,16 @@ def upload_document(request, order_id):
 
     return render(request, 'accounts/upload_document.html', {'form': form, 'order': order})
 
+def usa_visas_view(request):
+    # Получить карточки "США"
+    country = get_object_or_404(Country, name="США")
+    # Фильтруем карточки по стране
+    usa_visas = VisaCard.objects.filter(country=country)
+    return render(request, 'visas/visa_usa.html', {'visa_cards': usa_visas})
 
+def canada_visas_view(request):
+    # Получить карточки "Канада"
+    country = get_object_or_404(Country, name="Канада")
+    # Фильтруем карточки по стране
+    canada_visas = VisaCard.objects.filter(country=country)
+    return render(request, 'visas/visa_canada.html', {'visa_cards': canada_visas})

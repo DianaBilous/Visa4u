@@ -61,19 +61,17 @@
 
     <!-- Раздел "Заказать визу" -->
     <section id="order" class="mt-5">
-        <h2>Заказать визу</h2>
+        <h2 class="text-center">Заказать визу</h2>
         <div class="row justify-content-center">
-            {% for visa_type in visa_types %}
-            <div class="col-md-4 col-sm-6 mb-4" data-aos="fade-up">
+            {% for card in visa_cards %}
+            <div class="col-md-4 col-sm-6 mb-4" data-aos="zoom-in">
                 <div class="card visa-card shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title text-center">{{ visa_type.name }}</h5>
-                        <p class="card-text text-center">
-                            <span class="text-success font-weight-bold">{{ visa_type.price }} рублей</span>
-                        </p>
-                        <div class="text-center">
-                            <a href="{% url 'order_visa' visa_type.id %}" class="btn btn-primary w-100">Заказать</a>
-                        </div>
+                        <h5 class="card-title">{{ card.title }}</h5>
+                        <p class="price text-danger">{{ card.price }} рублей</p>
+                        <p class="card-description">{{ card.description }}</p>
+                        <p class="consular-fee">Консульский сбор: {{ card.consular_fee|yesno:"Включен,Не включен" }}</p>
+                        <a href="{% url 'order_visa' card.id %}" class="btn btn-primary">Заказать</a>
                     </div>
                 </div>
             </div>

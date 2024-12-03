@@ -491,12 +491,19 @@ button[type="submit"]:hover {
     transform: translateY(-50%);
 }
 
-/* Стили карточек */
+/* Стили для карточек */
 .visa-card {
     border-radius: 15px;
-    overflow: hidden;
     background-color: var(--white);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Вертикальная структура */
+    justify-content: space-between; /* Равномерное распределение */
+    padding: 20px;
+    text-align: center;
+    overflow: hidden; /* Предотвращение выхода содержимого за границы */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 380px; /* Минимальная высота карточек */
 }
 
 .visa-card:hover {
@@ -504,16 +511,114 @@ button[type="submit"]:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* Заголовок карточки */
 .visa-card .card-title {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 45px; /* Гарантированная высота для сохранения структуры */
+}
+
+/* Основной текст (описание) */
+.visa-card .card-description {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 60px; /* Фиксированная высота для описания */
+}
+
+/* Консульский сбор */
+.visa-card .consular-fee {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
     color: var(--secondary-color);
 }
 
+/* Кнопка */
 .visa-card .btn {
+    margin-top: auto; /* Прижимаем кнопку к нижнему краю */
+    align-self: center; /* Центруем кнопку */
     border-radius: 20px;
     padding: 10px 20px;
     text-transform: uppercase;
+    font-size: 1rem;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 80%; /* Ширина кнопки адаптивная */
+    max-width: 200px;
+    text-align: center;
+    white-space: nowrap; /* Отключаем перенос текста */
+    overflow: hidden; /* Текст не выходит за границы */
+    text-overflow: ellipsis; /* Добавляем троеточие, если текст не помещается */
+}
+
+/* Эффект при наведении на кнопку */
+.visa-card .btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+
+/* Адаптивные стили для карточек */
+@media (max-width: 991px) {
+    .visa-card .btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        width: 100%; /* Делаем ширину кнопки адаптивной */
+    }
+}
+
+@media (max-width: 768px) {
+    .visa-card {
+        padding: 15px;
+        height: auto; /* Автоматическая высота */
+    }
+
+    .visa-card .card-title {
+        font-size: 1rem;
+    }
+
+    .visa-card .card-description {
+        font-size: 0.9rem;
+        height: auto; /* Автоматическая высота */
+    }
+
+    .visa-card .btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .visa-card {
+        min-height: 300px; /* Минимальная высота */
+    }
+
+    .visa-card .card-title {
+        font-size: 0.9rem;
+    }
+
+    .visa-card .card-description {
+        font-size: 0.8rem;
+    }
+
+    .visa-card .btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        max-width: 180px;
+    }
 }
 
 /* Часто задаемые вопросы */

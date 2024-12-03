@@ -10,6 +10,10 @@ class Message(models.Model):
     is_read = models.BooleanField(default=False) 
     room = models.CharField(max_length=100)  # Название комнаты чата, если требуется
 
+    class Meta:
+        verbose_name = "Сообщение"  
+        verbose_name_plural = "Сообщения"
+
     def __str__(self):
         if self.is_admin:
             sender = "Admin"

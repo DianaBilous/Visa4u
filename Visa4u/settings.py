@@ -61,7 +61,13 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.consultations',
     'apps.chat',
+
+    'phonenumber_field',
 ]
+
+PHONENUMBER_DEFAULT_REGION = 'RU'  # регион по умолчанию (Россия)
+PHONENUMBER_DB_FORMAT = 'NATIONAL'  # Как хранить номер телефона в базе данных (NATIONAL/INTERNATIONAL)
+PHONENUMBER_DEFAULT_FORMAT = 'NATIONAL'
 
 SITE_ID = 3
 
@@ -195,12 +201,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
 
 

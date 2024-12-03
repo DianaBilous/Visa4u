@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import VisaAssessment, VisaOrder, Country, VisaType, VisaRequirement, VisaDocument, FAQ, DocumentUpload
+from .models import VisaAssessment, VisaOrder, Country, VisaType, VisaRequirement, VisaDocument, FAQ, DocumentUpload, VisaCard
 
 @admin.register(Country)
 class CountryAdmin(admin.ModelAdmin):
@@ -29,9 +29,9 @@ class VisaAssessmentAdmin(admin.ModelAdmin):
 
 @admin.register(VisaOrder)
 class VisaOrderAdmin(admin.ModelAdmin):
-    list_display = ('user', 'visa_type', 'order_date', 'status', 'assigned_manager')
+    list_display = ('user', 'visa_card', 'order_date', 'status', 'assigned_manager')
     list_filter = ('status', 'order_date', 'assigned_manager')
-    search_fields = ('user__username', 'visa_type__name')
+    search_fields = ('user__username', 'visa_card__name')
     filter_horizontal = ('required_documents',)
 
 @admin.register(FAQ)
@@ -44,3 +44,10 @@ class DocumentUploadAdmin(admin.ModelAdmin):
     list_display = ('order', 'document_type', 'uploaded_at')
     list_filter = ('uploaded_at',)
     search_fields = ('order__user__username', 'document_type')
+
+@admin.register(VisaCard)
+class VisaCardAdmin(admin.ModelAdmin):
+    list_display = ("title", "price", "consular_fee", "country")
+    list_filter = ("consular_fee",)
+    search_fields = ("title",)
+    ordering = ('country', 'title')

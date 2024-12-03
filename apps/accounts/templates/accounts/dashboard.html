@@ -26,7 +26,7 @@
                 <li>
                     <strong>{{ assessment.created_at|date:"d-m-Y H:i" }}:</strong>
                     {{ assessment.travel_purpose }} ({{ assessment.country }}) 
-                    <span class="badge badge-info">{{ assessment.status }}</span>
+                    <span class="badge badge-info">{{ assessment.get_status_display }}</span>
                 </li>
                 {% endfor %}
             </ul>
@@ -42,9 +42,8 @@
             <ul>
                 {% for order in orders %}
                 <li>
-                    <strong>{{ order.order_date|date:"d-m-Y H:i" }}:</strong>
-                    Заказ на {{ order.visa_type.name }} 
-                    (Статус: <span class="badge badge-info">{{ order.status }}</span>)
+                    <strong>{{ order.visa_card.title }}</strong>
+                    (Статус заказа: <span class="badge badge-info">{{ order.get_status_display }}</span>)
                 </li>
                 {% endfor %}
             </ul>
@@ -61,7 +60,7 @@
                 {% for consultation in consultations %}
                 <li>
                     Консультация на тему: <a href="{% url 'consultation_detail' consultation.id %}">{{ consultation.topic }}</a> 
-                    (Статус: <span class="badge badge-info">{{ consultation.get_status_display }}</span>)
+                    (Статус заказа: <span class="badge badge-info">{{ consultation.get_status_display }}</span>)
                 </li>
                 {% endfor %}
             </ul>
