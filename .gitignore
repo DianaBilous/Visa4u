@@ -173,4 +173,4 @@ staticfiles/
 
 *.sqlite3
 *.dump
-*.sql
+*.sqldump.rdb
