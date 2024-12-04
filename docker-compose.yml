@@ -1,0 +1,63 @@
+version: '3.9'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: daphne -b 0.0.0.0 -p 8001 Visa4u.asgi:application
+    volumes:
+      - ./staticfiles:/staticfiles  # Статические файлы
+    expose:
+      - "8001"
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - db
+      - redis
+    restart: always
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: always
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf  # Монтирование nginx.conf
+      - ./staticfiles:/staticfiles  # Доступ к статическим файлам
+    depends_on:
+      - web
+    restart: always
+
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: clickcheck_project
+      POSTGRES_USER: clickcheck_user
+      POSTGRES_PASSWORD: admin12345
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clickcheck_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
