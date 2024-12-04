@@ -169,8 +169,8 @@ python manage.py shell
 ```bash
 from visas.models import Country
 
-Country.objects.get_or_create(name="United States", code="US")
-Country.objects.get_or_create(name="Canada", code="CA")
+Country.objects.get_or_create(name="США")
+Country.objects.get_or_create(name="Канада")
 print("Страны добавлены успешно!")
 ```
 
