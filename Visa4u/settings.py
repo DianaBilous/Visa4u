@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG=os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['click-check.ru', 'www.click-check.ru']
 
 
 # Application definition
@@ -69,7 +69,7 @@ PHONENUMBER_DEFAULT_REGION = 'RU'  # регион по умолчанию (Ро�
 PHONENUMBER_DB_FORMAT = 'NATIONAL'  # Как хранить номер телефона в базе данных (NATIONAL/INTERNATIONAL)
 PHONENUMBER_DEFAULT_FORMAT = 'NATIONAL'
 
-SITE_ID = 3
+SITE_ID = 4
 
 ASGI_APPLICATION = 'Visa4u.asgi.application'
 
