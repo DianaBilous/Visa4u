@@ -1,20 +1,73 @@
 {% extends "admin/base_site.html" %}
 
 {% block content %}
-<h2>Чат: {{ room_name }}</h2>
 
-<div id="chat-log">
-    {% for message in messages %}
-        <p><strong>{{ message.user.username }}:</strong> {{ message.text }}</p>
-    {% endfor %}
+<!-- Стили для чата -->
+<style>
+    .chat-container {
+        width: 50%;
+        margin: auto;
+        font-family: Arial, sans-serif;
+    }
+    .chat-header {
+        text-align: center;
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+    .chat-messages {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        height: 400px;
+        overflow-y: auto;
+        background-color: #f9f9f9;
+    }
+    .chat-message {
+        margin-bottom: 10px;
+    }
+    .chat-input-container {
+        display: flex;
+        margin-top: 10px;
+        gap: 10px;
+    }
+    .chat-input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .chat-send-button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .chat-send-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="chat-container">
+    <h2 class="chat-header">Чат: {{ room_name }}</h2>
+
+    <div id="chat-log" class="chat-messages">
+        {% for message in messages %}
+            <div class="chat-message">
+                <strong>{{ message.user.username }}:</strong> {{ message.text }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Форма для отправки нового сообщения -->
+    <form id="chat-form" class="chat-input-container" action="javascript:void(0);">
+        {% csrf_token %}
+        <input type="text" id="chat-message-input" class="chat-input" placeholder="Введите сообщение">
+        <button type="button" id="chat-message-submit" class="chat-send-button">Отправить</button>
+    </form>
 </div>
-
-<!-- Форма для отправки нового сообщения -->
-<form id="chat-form" action="javascript:void(0);">
-    {% csrf_token %}
-    <input type="text" id="chat-message-input" placeholder="Введите сообщение">
-    <button type="button" id="chat-message-submit">Отправить</button>
-</form>
 
 <script>
 // Подключение к WebSocket
