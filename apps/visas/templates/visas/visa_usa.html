@@ -51,13 +51,17 @@
     <!-- Раздел "Бесплатная оценка шансов" -->
     <section id="assessment">
         <h2>Бесплатная оценка шансов</h2>
-        <!-- Кнопка для авторизованных пользователей -->
-        {% if user.is_authenticated %}
-            <a href="{% url 'free_assessment_usa' usa_visa_type.id %}" class="btn btn-primary">Оценить шансы</a>
+        {% if usa_visa_type %}
+            <!-- Кнопка для авторизованных пользователей -->
+            {% if user.is_authenticated %}
+                <a href="{% url 'free_assessment_usa' usa_visa_type.id %}" class="btn btn-primary">Оценить шансы</a>
+            {% else %}
+                <!-- Кнопка для неавторизованных пользователей -->
+                <a href="{% url 'login' %}?next={% url 'free_assessment_usa' usa_visa_type.id %}" class="btn btn-primary">Оценить шансы</a>
+                <p>Чтобы отслеживать статус заявки, войдите в систему или <a href="{% url 'free_assessment_guest_usa' usa_visa_type.id %}">оцените шансы без регистрации</a>.</p>
+            {% endif %}
         {% else %}
-            <!-- Кнопка для неавторизованных пользователей -->
-            <a href="{% url 'login' %}?next={% url 'free_assessment_usa' usa_visa_type.id %}" class="btn btn-primary">Оценить шансы</a>
-        <p>Чтобы отслеживать статус заявки, войдите в систему или <a href="{% url 'free_assessment_guest_usa' usa_visa_type.id %}">оцените шансы без регистрации</a>.</p>
+            <p>Бесплатная оценка шансов временно недоступна.</p>
         {% endif %}
     </section>
 
