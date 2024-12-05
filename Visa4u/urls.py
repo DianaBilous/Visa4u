@@ -41,7 +41,7 @@ urlpatterns = [
     path('accounts/password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
     path('consultations/', include('apps.consultations.urls')), # Консультации
     path('chat/', include('apps.chat.urls')),  # Добавляем маршруты чата
-    path('accounts/', include('allauth.urls')),  # Маршруты для соцсетей
+    path('social-accounts/', include('allauth.urls')),  # Маршруты для соцсетей
 ]
 
 # Указываем обработчики ошибок
