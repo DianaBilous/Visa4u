@@ -77,7 +77,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("visa4u_project-redis-1", 6379)],  # Адрес сервера Redis
+            "hosts": [(os.getenv("REDIS_HOST", "visa4u_project-redis-1"), int(os.getenv("REDIS_PORT", 6379)))],
         },
     },
 }
@@ -250,3 +250,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Почта, с которой будут отправляться письма
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Пароль или пароль приложения для Gmail
 DEFAULT_FROM_EMAIL = 'noreply@clickcheck.com'  # Это будет указано как "От кого" в письме
+CONTACT_EMAIL = 'info.clickcheck@gmail.com'

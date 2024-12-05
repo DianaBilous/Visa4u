@@ -9,13 +9,24 @@
     <h1>Контакты</h1>
     <p>Свяжитесь с нами, используя форму ниже или найдите контактные данные ниже:</p>
 
+    <!-- Добавляем отображение сообщений -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <!-- Раздел с контактной информацией -->
     <section id="contact-info">
         <h2>Наша контактная информация</h2>
         <ul>
             <li>Телефон: +123 456 7890</li>
-            <li>Email: info@visa4u.com</li>
-            <li>Адрес: ул. Примерная, 123, Киев, Украина</li>
+            <li>Email: info.clickcheck@gmail.com</li>
+            <li>Адрес: ул. Примерная, 123, Москва, Россия</li>
         </ul>
     </section>
 
