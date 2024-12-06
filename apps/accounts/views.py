@@ -19,6 +19,7 @@ def register(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+            user.backend = 'django.contrib.auth.backends.ModelBackend'  # Устанавливаем бэкенд для аутентификации
             login(request, user)  # Автоматически авторизуем пользователя
             username = form.cleaned_data.get('username')
             messages.success(request, f'Ваш аккаунт был создан: {username} и вы вошли в систему!')
