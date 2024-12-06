@@ -8,8 +8,9 @@ let roomId = localStorage.getItem('chatRoomId') || generateRoomId();
 localStorage.setItem('chatRoomId', roomId);  // Сохраняем его в localStorage, чтобы сохранялась сессия
 
 // Подключение к WebSocket с room_id
+const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
 const chatSocket = new WebSocket(
-    'ws://' + window.location.host + '/ws/chat/' + roomId + '/'
+    protocol + window.location.host + '/ws/chat/' + roomId + '/'
 );
 
 // Обработчик для загрузки истории сообщений и новых сообщений
