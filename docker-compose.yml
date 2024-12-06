@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     command: daphne -b 0.0.0.0 -p 8001 Visa4u.asgi:application
     volumes:
-      - ./staticfiles:/staticfiles  # Статические файлы
+      - ./staticfiles:/app/staticfiles  # Статические файлы
     expose:
       - "8001"
     env_file:
@@ -35,8 +35,8 @@ services:
       - "80:80"
       - "443:443"  # Для HTTPS
     volumes:
-      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro  # Монтирование nginx.conf
       - ./staticfiles:/staticfiles:ro  # Доступ к статическим файлам
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro  # Монтирование nginx.conf
       - /etc/ssl/click-check:/etc/ssl/click-check:ro  # Монтирование сертификатов
     depends_on:
       - web
