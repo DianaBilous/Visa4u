@@ -31,6 +31,10 @@ DEBUG=os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['click-check.ru', 'www.click-check.ru']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://www.click-check.ru',
+    'https://click-check.ru'
+]
 
 # Application definition
 
